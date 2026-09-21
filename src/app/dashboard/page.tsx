@@ -6,6 +6,7 @@ import { db } from "@/db";
 import { clients, invoices, payments } from "@/db/schema";
 import { Users, TrendingUp, AlertCircle, Calendar, ArrowRight, FileText, CheckCircle2, Clock } from "lucide-react";
 import type { Metadata } from "next";
+import { RevenueChart, InvoiceStatusChart, ClientStatusChart } from "./DashboardCharts";
 
 export const metadata: Metadata = {
   title: "Dashboard — OkeSite CRM",
@@ -53,7 +54,46 @@ export default async function DashboardPage() {
   const unpaidCount = unpaidInvoices.length;
   const totalUnpaidAmount = unpaidInvoices.reduce((sum, i) => sum + (i.totalAmount || 0), 0);
 
-  // 4. Action items (Follow Ups or Renewal < 14 days)
+  // 4. Monthly Revenue (last 6 months)
+  const now = new Date();
+  const monthLabels: { key: string; label: string; month: number; year: number }[] = Array.from({ length: 6 }, (_, i) => {
+    const d = new Date(now.getFullYear(), now.getMonth() - (5 - i), 1);
+    return {
+      key: `${d.getFullYear()}-${d.getMonth()}`,
+      label: d.toLocaleDateString("id-ID", { month: "short" }),
+      month: d.getMonth(),
+      year: d.getFullYear(),
+    };
+  });
+
+  const monthlyRevenue = monthLabels.map((m) => {
+    const filtered = allPayments.filter((p) => {
+      if (!p.paymentDate) return false;
+      const d = new Date(p.paymentDate);
+      return d.getMonth() === m.month && d.getFullYear() === m.year;
+    });
+    return {
+      month: m.label.charAt(0).toUpperCase() + m.label.slice(1),
+      revenue: filtered.reduce((sum, p) => sum + (p.amountPaid || 0), 0),
+      count: filtered.length,
+    };
+  });
+
+  // 5. Invoice status distribution
+  const invoiceStatusData = [
+    { name: "Lunas", value: allInvoices.filter((i) => i.status === "PAID").length, color: "#10b981" },
+    { name: "Cicil", value: allInvoices.filter((i) => i.status === "PARTIAL").length, color: "#f59e0b" },
+    { name: "Belum Bayar", value: allInvoices.filter((i) => i.status === "UNPAID").length, color: "#f43f5e" },
+  ].filter((d) => d.value > 0);
+
+  // 6. Client status distribution
+  const clientStatusData = [
+    { name: "DEAL", value: allClients.filter((c) => c.status === "DEAL").length, color: "#10b981" },
+    { name: "Follow Up", value: allClients.filter((c) => c.status === "FOLLOW_UP").length, color: "#f59e0b" },
+    { name: "REJECT", value: allClients.filter((c) => c.status === "REJECT").length, color: "#f43f5e" },
+  ].filter((d) => d.value > 0);
+
+  // 7. Action items (Follow Ups or Renewal < 14 days)
   const todayActions = allClients.filter((c) => {
     if (c.status === "FOLLOW_UP") return true;
     const days = daysUntil(c.renewalDate);
@@ -129,6 +169,17 @@ export default async function DashboardPage() {
               {unpaidCount} Tagihan Pending
             </span>
           </div>
+        </div>
+      </div>
+
+      {/* ── Section: Charts (Pendapatan + Status) ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="lg:col-span-2">
+          <RevenueChart data={monthlyRevenue} />
+        </div>
+        <div className="lg:col-span-1 space-y-4">
+          <InvoiceStatusChart data={invoiceStatusData} />
+          <ClientStatusChart data={clientStatusData} />
         </div>
       </div>
 

@@ -12,6 +12,7 @@
 | Database | **Turso (SQLite)** via `@libsql/client/web` |
 | ORM | **Drizzle ORM** + `drizzle-kit` |
 | Validasi | **Zod** + **React Hook Form** (`@hookform/resolvers`) |
+| Chart | **Recharts** (`BarChart` + `PieChart` Donut, `ResponsiveContainer`) |
 | Hosting | **Cloudflare Pages** via `@opennextjs/cloudflare` + `wrangler` |
 | Notifikasi | `sonner` (toast) |
 
@@ -25,16 +26,20 @@ src/
 │   ├── page.tsx                          # / → redirect ke /dashboard atau /sign-in (edge)
 │   ├── layout.tsx                        # ClerkProvider + Toaster
 │   ├── sign-in/[[...sign-in]]/page.tsx   # Clerk SignIn
+│   ├── api/search/route.ts               # Global search API (edge, auth, LIKE)
 │   └── dashboard/
-│       ├── layout.tsx                    # Sidebar desktop + Sheet mobile (client)
-│       ├── page.tsx                      # Dashboard ringkasan (edge)
+│       ├── layout.tsx                    # Sidebar + header + GlobalSearch trigger (client)
+│       ├── page.tsx                      # Dashboard ringkasan (edge) + agregasi chart
+│       ├── DashboardCharts.tsx           # Recharts client: RevenueChart + Invoice/Client Donut
 │       ├── clients/page.tsx + actions.ts + AddClientDialog + ClientListContainer + ClientDetailSheet
 │       ├── services/page.tsx + actions.ts + ServiceDialogs + ServiceListContainer + DeleteServiceButton
 │       └── invoices/page.tsx + actions.ts + InvoiceDialogs + InvoiceListContainer
 ├── db/
 │   ├── schema.ts                         # 4 tabel: services, clients, invoices, payments
 │   └── index.ts                          # createClient(web) + drizzle()
-├── components/ui/                        # shadcn: button, dialog, sheet, table, badge, input, select, etc.
+├── components/
+│   ├── ui/                               # shadcn: button, dialog, sheet, table, badge, input, select, etc.
+│   └── GlobalSearch.tsx                  # Command palette client (⌘K, debounce, grouped results)
 ├── lib/utils.ts
 └── proxy.ts                              # clerkMiddleware (Next.js 16: proxy.ts)
 ```
@@ -56,6 +61,8 @@ src/
 
 ### 2. Dashboard — Ringkasan Agensi (`/dashboard`)
 - 3 kartu metrik: **Klien Aktif (DEAL)**, **Pendapatan Bulan Ini** (agregasi `payments.paymentDate`), **Tagihan Belum Dibayar** (count + total outstanding).
+- **Chart Pendapatan 6 Bulan** *(Baru 2026-09-21)*: `RevenueChart` (`DashboardCharts.tsx`) `BarChart` `ResponsiveContainer` — agregasi `payments` per bulan (6 bulan terakhir, label `id-ID` short), `Bar` `fill #2563eb` `radius 8` + `CartesianGrid` + `Tooltip` format `Rp ... (X trx)`, empty `border-dashed` jika belum ada pendapatan.
+- **Chart Status Tagihan & Klien** *(Baru 2026-09-21)*: `InvoiceStatusChart` + `ClientStatusChart` `PieChart` Donut (`inner 56 outer 82 paddingAngle 3`) — warna `design.md:17` `emerald #10b981 / amber #f59e0b / rose #f43f5e`, `Legend circle 8px`, `Tooltip` + total count, empty dashed jika 0. Layout `grid lg:grid-cols-3` (kiri 2/3 revenue, kanan 1/3 stack 2 donuts) responsif `h-[220px] md:h-[260px]`.
 - **Aksi Hari Ini**: list klien `status=FOLLOW_UP` atau `renewalDate` ≤ 14 hari, badge `Follow Up` / `Renewal: X hari lagi`, empty state "Semua Tugas Selesai!".
 
 ### 3. Klien & Prospek (`/dashboard/clients`)
@@ -79,13 +86,19 @@ src/
 - **List**: enriched `clientName/serviceName/paidTotal/remaining`, stats Total/Lunas/Pending/Piutang, filter status + search, Table + Card dengan progress bar `% terbayar`. Kolom **Aksi** kini `flex gap-1`: `Bayar/Cicil` + `Edit` + `Hapus` (desktop & mobile).
 - **Bugfix 2026-09-21**: Input `Jumlah Bayar` & `Total Tagihan` diganti `min 1 step 1 inputMode numeric` — fix bug `1400000` ditolak dengan pesan `Please enter a valid value. Nearest valid value is 1399001` akibat `min 1 + step 1000` → valid hanya `1, 1001, 2001...`.
 
-### 6. UI/UX System (`design.md` dipatuhi)
+### 6. Global Search & Command Palette (`⌘K`) *(Baru 2026-09-21)*
+- **Trigger**: Button di header desktop (`Cari klien, tagihan...` + badge `⌘K`, `lg:flex`) + icon `Search` di header mobile (`md:hidden`) + shortcut `Ctrl/Cmd+K` global + `Esc` tutup (`GlobalSearch.tsx`).
+- **API** `src/app/api/search/route.ts` `runtime='edge'` + `auth()` — query `?q=` → `LIKE %q%` di `clients` (name/contact/website/status) & `services` (name/description) `limit 5`, `invoices` enriched via `clientMap/serviceMap` filter `clientName/serviceName/status` di JS `limit 5`, `navigation` static (Dashboard/Klien/Layanan/Tagihan) filtered. Debounce `220ms`, `AbortController`, `limit 50` untuk invoices.
+- **Palette UI**: Overlay `bg-slate-900/40 backdrop-blur` + panel `max-w-xl rounded-2xl border shadow-xl` (`design.md` clean). Input `autoFocus` + `Loader2` + groups: Navigasi (`LayoutDashboard`), Klien (`Users` + `Badge` status), Layanan (`Package` + price `formatCurrency`), Tagihan (`FileText` + `Badge`). Keyboard `↑↓` + `Enter` (flat index), empty `Tidak ada hasil untuk "..."`, hint `⌘K / ↑↓ / Enter`, footer `ESC tutup`.
+- **Navigasi**: `useRouter().push(href)` + close palette, `revalidate` via `router.push`.
+
+### 7. UI/UX System (`design.md` dipatuhi)
 - Mobile-First (`p-4` mobile, `p-8` desktop, `max-w-6xl`, Sidebar 250px desktop / Sheet hamburger mobile, sticky header + breadcrumb).
 - Palette: `bg-slate-50` + `bg-white` + `bg-blue-600`, Badge status `emerald/amber/rose` (`components/ui/badge.tsx`).
 - shadcn `Dialog`/`Sheet` untuk form biar SPA-like, `Form` + `Input` label vertikal, `EmptyState` + CTA.
 - Format IDR `Intl.NumberFormat("id-ID", { currency:"IDR" })`, format tanggal `id-ID`.
 
-### 7. Deployment
+### 8. Deployment
 - `next.config.ts` `output: "standalone"`, `open-next.config.ts` (`cloudflare-node` + `converter: edge`), `wrangler.jsonc` (`okesite-crm`, `compatibility_date: 2026-09-17`, `nodejs_compat`).
 - Scripts: `pages:build`, `preview`, `deploy` siap Cloudflare.
 - `npm run build` lolos (Turbopack, 7 workers, Edge routes `ƒ`).
@@ -117,11 +130,11 @@ src/
 |---|---|---|
 | **Tinggi** | **Export Invoice PDF** | Generate PDF tagihan (logo, item layanan, total, status, riwayat cicilan) — tombol di `InvoiceListContainer`. |
 | Tinggi | **Pengingat Renewal** | Cron/Worker harian: email/WhatsApp (mis. via Resend/Twilio) H-14, H-7, H-1 untuk `renewalDate` & `dueDate`. |
-| Tinggi | **Dashboard Chart** | Grafik pendapatan 6/12 bulan + donut status invoice (pakai `recharts`). |
+| ~~Tinggi~~ ✅ | **Dashboard Chart** | ✅ **Selesai 2026-09-21** — `RevenueChart` 6 bulan + `InvoiceStatusChart`/`ClientStatusChart` Donut di `DashboardCharts.tsx` (recharts, Mobile-First, palette `design.md`). |
 | ~~Tinggi~~ ✅ | **Hapus/Edit Invoice** | ✅ **Selesai 2026-09-21** — `updateInvoice`/`deleteInvoice` + `EditInvoiceDialog`/`DeleteInvoiceButton` di `InvoiceDialogs.tsx`. |
 | Sedang | **Upload Bukti Bayar** | `payments` tambah kolom `proofUrl` + upload ke R2/Cloudflare Images. |
 | Sedang | **Role & Multi-User** | Clerk Organizations: Admin vs Staff, filter data per user. |
-| Sedang | **Global Search & Command Palette** | `⌘K` search klien/invoice/layanan lintas halaman. |
+| ~~Sedang~~ ✅ | **Global Search & Command Palette** | ✅ **Selesai 2026-09-21** — `⌘K` palette di `GlobalSearch.tsx` + API `api/search` edge (LIKE, debounce, grouped nav/klien/layanan/tagihan, `↑↓/Enter`/`Esc`). |
 | Sedang | **Activity Log** | Tabel `audit_logs` (who, what, when) untuk perubahan status & pembayaran. |
 | Sedang | **Import/Export CSV** | Bulk import klien & export laporan keuangan. |
 | Rendah | **Notifikasi In-App** | Bell icon di header untuk renewal & tagihan overdue. |
@@ -184,6 +197,8 @@ Semua halaman server yang akses `db`/`auth()` sudah `export const runtime = 'edg
 
 ## Changelog
 
+- **2026-09-21 — Global Search & Command Palette**: Tambah `src/app/api/search/route.ts` (edge, `auth`, `LIKE` clients/services + invoices enriched filter, navigation) + `src/components/GlobalSearch.tsx` (singleton `⌘K`, debounce 220ms, `AbortController`, grouped results, `↑↓/Enter`/`Esc`, overlay `backdrop-blur`, `Badge` status, `formatCurrency`) + trigger di `src/app/dashboard/layout.tsx` (desktop pill + mobile icon).
+- **2026-09-21 — Dashboard Chart**: Tambah `recharts` + `src/app/dashboard/DashboardCharts.tsx` (`RevenueChart` Bar 6 bulan, `InvoiceStatusChart`/`ClientStatusChart` Donut `emerald/amber/rose`, `ResponsiveContainer`, `Tooltip` IDR, empty dashed) + agregasi server di `src/app/dashboard/page.tsx` + layout `lg:grid-cols-3`.
 - **2026-09-21 — Hapus/Edit Invoice**: Tambah `updateInvoice`/`deleteInvoice` di `src/app/dashboard/invoices/actions.ts`, `EditInvoiceDialog` + `DeleteInvoiceButton` di `InvoiceDialogs.tsx`, integrasi aksi di `InvoiceListContainer.tsx` (desktop Table & mobile Card).
 - **2026-09-21 — Bugfix Input 1400000**: Ubah semua input uang dari `min 1 step 1000` ke `min 1 step 1 inputMode numeric` (`InvoiceDialogs.tsx:228,385,626`, `ServiceDialogs.tsx:242`) — fix `stepMismatch` validasi browser.
 - **2026-09-21 — Edge Runtime**: Ganti `@libsql/client` → `@libsql/client/web` + `export const runtime = 'edge'` di semua server pages.

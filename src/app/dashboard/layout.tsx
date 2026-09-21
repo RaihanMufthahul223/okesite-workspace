@@ -11,9 +11,11 @@ import {
   CreditCard,
   Menu,
   ChevronRight,
+  Search,
 } from "lucide-react";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { useState } from "react";
+import { GlobalSearchPalette, openCommandPalette } from "@/components/GlobalSearch";
 
 const navItems: Array<{ href: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }> = [
   {
@@ -124,6 +126,7 @@ export default function DashboardLayout({
 
   return (
     <div className="flex h-screen overflow-hidden bg-slate-50 font-sans">
+      <GlobalSearchPalette />
 
       {/* ── Desktop Sidebar (Fixed left, hidden on mobile) ── */}
       <aside className="hidden md:flex w-64 flex-shrink-0 flex-col border-r border-slate-200 bg-white">
@@ -143,6 +146,24 @@ export default function DashboardLayout({
             <span className="text-slate-900 font-semibold">{breadcrumb.title}</span>
           </div>
           <div className="flex items-center gap-3">
+            <button
+              onClick={openCommandPalette}
+              className="hidden lg:flex items-center gap-2 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-500 hover:bg-white hover:border-slate-300 hover:text-slate-700 transition min-w-[240px] justify-between"
+              aria-label="Buka pencarian (⌘K)"
+            >
+              <span className="flex items-center gap-2">
+                <Search className="w-4 h-4 text-slate-400" />
+                Cari klien, tagihan...
+              </span>
+              <span className="text-xs bg-white border border-slate-200 px-1.5 py-0.5 rounded font-medium text-slate-500">⌘K</span>
+            </button>
+            <button
+              onClick={openCommandPalette}
+              className="lg:hidden p-2 rounded-xl text-slate-500 hover:bg-slate-100 hover:text-slate-700 border border-transparent hover:border-slate-200 transition"
+              aria-label="Cari"
+            >
+              <Search className="w-5 h-5" />
+            </button>
             <UserButton />
           </div>
         </header>
@@ -183,7 +204,16 @@ export default function DashboardLayout({
               <span className="font-bold text-slate-900 text-sm">OkeSite CRM</span>
             </div>
           </div>
-          <UserButton />
+          <div className="flex items-center gap-2">
+            <button
+              onClick={openCommandPalette}
+              className="p-2 rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-700 transition"
+              aria-label="Cari (⌘K)"
+            >
+              <Search className="w-5 h-5" />
+            </button>
+            <UserButton />
+          </div>
         </header>
 
         {/* Scrollable Main Content Container */}
