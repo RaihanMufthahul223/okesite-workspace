@@ -69,11 +69,15 @@ src/
 - **CRUD penuh**: `addService`, `updateService`, `deleteService` (`actions.ts` Zod `name/basePrice>0/description`).
 - **Dialog**: `AddServiceDialog` & `EditServiceDialog` (shared `ServiceForm`) + `DeleteServiceButton` dengan confirm.
 - **List**: search nama/deskripsi, stats Total Paket + Rata-rata Harga, Table desktop / Card mobile.
+- **Bugfix 2026-09-21**: Input harga `basePrice` `min 1 step 1 inputMode numeric` — sebelumnya `step 1000` bikin `1400000` ditolak browser (`stepMismatch`).
 
 ### 5. Tagihan & Pembayaran (`/dashboard/invoices`)
 - **Buat Tagihan**: `createInvoice` — pilih klien **hanya DEAL** + layanan, auto-fill `totalAmount` dari `services.basePrice` (editable), `dueDate`, `revalidatePath` ke `/dashboard`.
 - **Bayar/Cicil**: `addPayment` — validasi: invoice ada, belum PAID, cek `remaining = total - SUM(paid)`, reject jika `amountPaid > remaining`, simpan `paymentDate/method/note`, auto-update `invoices.status` → `PARTIAL`/`PAID`, toast.
-- **List**: enriched `clientName/serviceName/paidTotal/remaining`, stats Total/Lunas/Pending/Piutang, filter status + search, Table + Card dengan progress bar `% terbayar`.
+- **Edit Tagihan** *(Baru 2026-09-21)*: `updateInvoice` (`actions.ts`) — edit `clientId/serviceId/totalAmount/dueDate` via `EditInvoiceDialog` (shadcn Dialog + `Pencil` trigger). Validasi `totalAmount >= paidSoFar` agar tidak kurang dari cicilan terlanjur, recalc `status` otomatis, fallback opsi klien/layanan saat status DEAL berubah.
+- **Hapus Tagihan** *(Baru 2026-09-21)*: `deleteInvoice` — `confirm` + hapus `payments` terkait dulu (FK) lalu `invoices`, `DeleteInvoiceButton` (`Trash2` `hover:rose-50`), `revalidatePath` ke `invoices` & `dashboard`.
+- **List**: enriched `clientName/serviceName/paidTotal/remaining`, stats Total/Lunas/Pending/Piutang, filter status + search, Table + Card dengan progress bar `% terbayar`. Kolom **Aksi** kini `flex gap-1`: `Bayar/Cicil` + `Edit` + `Hapus` (desktop & mobile).
+- **Bugfix 2026-09-21**: Input `Jumlah Bayar` & `Total Tagihan` diganti `min 1 step 1 inputMode numeric` — fix bug `1400000` ditolak dengan pesan `Please enter a valid value. Nearest valid value is 1399001` akibat `min 1 + step 1000` → valid hanya `1, 1001, 2001...`.
 
 ### 6. UI/UX System (`design.md` dipatuhi)
 - Mobile-First (`p-4` mobile, `p-8` desktop, `max-w-6xl`, Sidebar 250px desktop / Sheet hamburger mobile, sticky header + breadcrumb).
@@ -114,7 +118,7 @@ src/
 | **Tinggi** | **Export Invoice PDF** | Generate PDF tagihan (logo, item layanan, total, status, riwayat cicilan) — tombol di `InvoiceListContainer`. |
 | Tinggi | **Pengingat Renewal** | Cron/Worker harian: email/WhatsApp (mis. via Resend/Twilio) H-14, H-7, H-1 untuk `renewalDate` & `dueDate`. |
 | Tinggi | **Dashboard Chart** | Grafik pendapatan 6/12 bulan + donut status invoice (pakai `recharts`). |
-| Tinggi | **Hapus/Edit Invoice** | Saat ini hanya create + pay. Tambah aksi hapus & edit `totalAmount/dueDate`. |
+| ~~Tinggi~~ ✅ | **Hapus/Edit Invoice** | ✅ **Selesai 2026-09-21** — `updateInvoice`/`deleteInvoice` + `EditInvoiceDialog`/`DeleteInvoiceButton` di `InvoiceDialogs.tsx`. |
 | Sedang | **Upload Bukti Bayar** | `payments` tambah kolom `proofUrl` + upload ke R2/Cloudflare Images. |
 | Sedang | **Role & Multi-User** | Clerk Organizations: Admin vs Staff, filter data per user. |
 | Sedang | **Global Search & Command Palette** | `⌘K` search klien/invoice/layanan lintas halaman. |
@@ -122,7 +126,7 @@ src/
 | Sedang | **Import/Export CSV** | Bulk import klien & export laporan keuangan. |
 | Rendah | **Notifikasi In-App** | Bell icon di header untuk renewal & tagihan overdue. |
 | Rendah | **Dark Mode** | Toggle tema (shadcn sudah support). |
-| Rendah | **Tests** | Vitest + Playwright (E2E untuk flow create client → invoice → pay). |
+| Rendah | **Tests** | Vitest + Playwright (E2E untuk flow create client → invoice → pay → edit/delete). |
 
 ---
 
@@ -175,6 +179,15 @@ npx drizzle-kit push
 ## Catatan Kepatuhan Edge
 
 Semua halaman server yang akses `db`/`auth()` sudah `export const runtime = 'edge'` (`src/app/page.tsx`, `src/app/dashboard/page.tsx`, `src/app/dashboard/clients/page.tsx`, `src/app/dashboard/services/page.tsx`, `src/app/dashboard/invoices/page.tsx`) dan `src/db/index.ts` pakai `from "@libsql/client/web"`. `proxy.ts` & `dashboard/layout.tsx` (client) sengaja tidak pakai runtime. Server Actions (`actions.ts`) inherit Edge dari page penganggil.
+
+---
+
+## Changelog
+
+- **2026-09-21 — Hapus/Edit Invoice**: Tambah `updateInvoice`/`deleteInvoice` di `src/app/dashboard/invoices/actions.ts`, `EditInvoiceDialog` + `DeleteInvoiceButton` di `InvoiceDialogs.tsx`, integrasi aksi di `InvoiceListContainer.tsx` (desktop Table & mobile Card).
+- **2026-09-21 — Bugfix Input 1400000**: Ubah semua input uang dari `min 1 step 1000` ke `min 1 step 1 inputMode numeric` (`InvoiceDialogs.tsx:228,385,626`, `ServiceDialogs.tsx:242`) — fix `stepMismatch` validasi browser.
+- **2026-09-21 — Edge Runtime**: Ganti `@libsql/client` → `@libsql/client/web` + `export const runtime = 'edge'` di semua server pages.
+- **2026-09-20 — MVP**: Clients/Services/Invoices/Dashboard + Clerk + Turso + Cloudflare siap.
 
 ---
 
