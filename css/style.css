@@ -57,17 +57,37 @@
   --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-/* Quick Page Switcher Bar for Demo & Testing */
+/* Quick Page Switcher Bar for Demo & Testing — HANYA tampil di desktop */
 .screen-switcher-bar {
+  display: none; /* Sembunyikan di HP, tampil hanya di desktop */
+}
+
+/* Wrapper utama app: full width di mobile, centered frame di desktop */
+.app-wrapper {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 14px;
-  flex-wrap: wrap;
-  z-index: 120;
+  flex-direction: column;
+  align-items: stretch;
   width: 100%;
-  max-width: 440px;
+  /* TIDAK ada max-width di mobile = full screen seperti APK */
+}
+
+@media (min-width: 500px) {
+  .app-wrapper {
+    align-items: center;
+    max-width: 440px;
+  }
+
+  .screen-switcher-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    z-index: 120;
+    width: 100%;
+    max-width: 440px;
+  }
 }
 
 .screen-switcher-bar span {
@@ -110,54 +130,49 @@
 
 body {
   font-family: var(--font-family);
-  background-color: #0b1329;
+  background-color: var(--bg-app);
   color: var(--text-main);
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  min-height: 100dvh;
+  display: block;
   overflow-x: hidden;
 }
 
 /* --------------------------------------------------------------------------
-   App Container & Smartphone Simulator Frame (Desktop View)
+   App Container: Full Screen di semua perangkat (Mobile & Desktop)
    -------------------------------------------------------------------------- */
 .app-viewport {
   width: 100%;
-  max-width: 440px;
-  min-height: 100vh;
+  max-width: 100%;
+  height: 100vh;
+  height: 100dvh;
   background-color: var(--bg-app);
   position: relative;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5);
-  overflow: hidden;
+  overflow: hidden; /* clip frame saja, scroll ada di .screen-view */
 }
 
-@media (min-width: 500px) {
+/* Mobile Native: Safe-area inset untuk iPhone Notch & Android punch-hole */
+@supports (padding-top: env(safe-area-inset-top)) {
   .app-viewport {
-    height: 92vh;
-    min-height: 840px;
-    max-height: 940px;
-    border-radius: 40px;
-    border: 9px solid #1e293b;
-    margin: 20px auto;
-  }
-
-  /* Simulated Camera Notch / Dynamic Island */
-  .app-viewport::before {
-    content: '';
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 110px;
-    height: 22px;
-    background-color: #0f172a;
-    border-radius: 20px;
-    z-index: 100;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
   }
 }
+
+/* Scroll area — flex:1 agar mengisi sisa tinggi, scroll di sini */
+.screen-view {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  scroll-behavior: smooth;
+}
+
 
 /* --------------------------------------------------------------------------
    Top App Bar & Header (Sesuai Foto dengan Peningkatan Modern)

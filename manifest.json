@@ -4,6 +4,7 @@
   "description": "Aplikasi manajemen stok, kasir POS, omzet, dan operasional UMKM Indonesia",
   "start_url": "./index.html",
   "display": "standalone",
+  "display_override": ["standalone", "fullscreen"],
   "background_color": "#1E40AF",
   "theme_color": "#2563EB",
   "orientation": "portrait",

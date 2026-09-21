@@ -226,64 +226,8 @@
   font-size: 16px;
 }
 
-/* Desktop Presentation Info Banner */
-.desktop-banner {
-  display: none;
-}
+/* Desktop view: full screen web app */
 
-@media (min-width: 900px) {
-  body {
-    background: radial-gradient(circle at 10% 20%, #0f172a 0%, #080d1a 100%);
-    padding: 30px;
-    gap: 40px;
-  }
 
-  .desktop-banner {
-    display: flex;
-    flex-direction: column;
-    max-width: 420px;
-    color: #ffffff;
-    gap: 16px;
-  }
 
-  .desktop-banner h2 {
-    font-size: 28px;
-    font-weight: 800;
-    line-height: 1.25;
-    background: linear-gradient(135deg, #60a5fa 0%, #ffffff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
 
-  .desktop-banner p {
-    font-size: 14px;
-    line-height: 1.6;
-    color: #94a3b8;
-  }
-
-  .desktop-feature-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .desktop-tag {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 6px 12px;
-    border-radius: 99px;
-    font-size: 12px;
-    font-weight: 600;
-    color: #e2e8f0;
-  }
-
-  .apk-build-tip {
-    background: rgba(37, 99, 235, 0.12);
-    border: 1px solid rgba(59, 130, 246, 0.3);
-    border-radius: var(--radius-md);
-    padding: 14px 16px;
-    font-size: 13px;
-    color: #93c5fd;
-    line-height: 1.5;
-  }
-}

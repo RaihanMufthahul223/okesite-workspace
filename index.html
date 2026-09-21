@@ -18,59 +18,16 @@
     rel="stylesheet">
 
   <!-- Stylesheet (Cache Busted) -->
-  <link rel="stylesheet" href="css/style.css?v=2.5">
-  <link rel="stylesheet" href="css/responsive.css?v=2.5">
+  <link rel="stylesheet" href="css/style.css?v=7">
+  <link rel="stylesheet" href="css/responsive.css?v=7">
 </head>
 
 <body>
 
-  <!-- Desktop Presentation Banner (Tampak jika dibuka di layar Laptop/PC) -->
-  <div class="desktop-banner">
-    <div style="display:flex; align-items:center; gap:12px;">
-      <div
-        style="width:48px; height:48px; border-radius:14px; background:linear-gradient(135deg, #2563eb, #1d4ed8); display:flex; align-items:center; justify-content:center; box-shadow:0 8px 20px rgba(37,99,235,0.4);">
-        <span style="font-size:24px;">💼</span>
-      </div>
-      <div>
-        <h1 style="font-size:22px; font-weight:800; color:#ffffff; margin:0;">Bos UMKM App</h1>
-        <span style="font-size:12px; color:#93c5fd; font-weight:600;">Frontend Mobile Shell & PWA</span>
-      </div>
-    </div>
 
-    <h2>Tampilan Modern Berkelas Eksekutif untuk Pelaku UMKM</h2>
-    <p>
-      Desain ini dibuat mengacu pada sketsa konsep Anda, lengkap dengan 4 layar navigasi: <strong>Beranda</strong>,
-      <strong>Daftar Barang</strong>, <strong>Riwayat Transaksi</strong>, dan <strong>Akun / Pengaturan</strong>.
-    </p>
 
-    <div class="desktop-feature-tags">
-      <span class="desktop-tag">🏠 Beranda & Metrik (*)</span>
-      <span class="desktop-tag">📦 Daftar Barang & Scan Barcode</span>
-      <span class="desktop-tag">🕒 Riwayat & Download Excel</span>
-      <span class="desktop-tag">👤 Akun & Pengaturan Toko</span>
-      <span class="desktop-tag">🛒 Kasir POS Terpadu</span>
-    </div>
 
-    <div class="apk-build-tip">
-      <div style="font-weight:700; color:#ffffff; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
-        <span>📱</span> Kesiapan Backend & Menjadi APK:
-      </div>
-      File <code>js/api.js</code> dan panduan <code>API_GUIDE.md</code> sudah disiapkan agar rekan backend Anda dapat
-      langsung menghubungkan REST API database.
-    </div>
-  </div>
-
-  <div style="display:flex; flex-direction:column; align-items:center; width:100%; max-width:440px;">
-    <!-- Switcher Cepat Antar Layar (Demo & Uji Coba) -->
-    <div class="screen-switcher-bar">
-      <span>Lihat Layar:</span>
-      <a href="index.html" class="switcher-btn active" data-tab-switch="home">🏠 Beranda</a>
-      <a href="daftar-barang.html" class="switcher-btn" data-tab-switch="warehouse">📦 Daftar Barang</a>
-      <a href="riwayat.html" class="switcher-btn" data-tab-switch="history">🕒 Riwayat</a>
-      <a href="akun.html" class="switcher-btn" data-tab-switch="account">👤 Akun</a>
-    </div>
-
-    <!-- Container Layar Smartphone (Responsive Mobile Viewport) -->
+    <!-- Container Aplikasi -->
     <main class="app-viewport" id="appViewport">
 
       <!-- ======================================================================
@@ -733,11 +690,10 @@
       <div class="toast-container" id="toastContainer"></div>
 
     </main>
-  </div>
 
   <!-- Script Modules (Cache Busted) -->
-  <script src="js/api.js?v=2.5"></script>
-  <script src="js/app.js?v=2.5"></script>
+  <script src="js/api.js?v=7.5"></script>
+  <script src="js/app.js?v=7.5"></script>
   <script>
     // Hapus service worker lama jika ada
     if ('serviceWorker' in navigator) {
