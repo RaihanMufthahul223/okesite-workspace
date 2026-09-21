@@ -1,4 +1,4 @@
-# OkeSite CRM — Internal CRM & Finance Tracker
+# OkeSite CRM: Internal CRM & Finance Tracker
 
 > CRM internal untuk agensi web: kelola prospek/klien, katalog layanan, tagihan & cicilan, dan pantau renewal domain/hosting. Dibangun Mobile-First, siap deploy ke Cloudflare Pages (Edge Runtime).
 
