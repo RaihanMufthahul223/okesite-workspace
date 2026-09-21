@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#1053d4">
+  <meta name="description"
+    content="Bos UMKM - Aplikasi Manajemen Bisnis, Kasir POS, Stok, dan Omzet Terpercaya untuk UMKM Indonesia">
+  <link rel="manifest" href="manifest.json">
+  <title>Bos UMKM - Asisten Bisnis & Kasir Digital</title>
+
+  <!-- Google Font: Plus Jakarta Sans (Standar UI Modern Fintech & Enterprise) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Stylesheet (Cache Busted) -->
+  <link rel="stylesheet" href="css/style.css?v=2.5">
+  <link rel="stylesheet" href="css/responsive.css?v=2.5">
+</head>
+
+<body>
+
+  <!-- Desktop Presentation Banner (Tampak jika dibuka di layar Laptop/PC) -->
+  <div class="desktop-banner">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <div
+        style="width:48px; height:48px; border-radius:14px; background:linear-gradient(135deg, #2563eb, #1d4ed8); display:flex; align-items:center; justify-content:center; box-shadow:0 8px 20px rgba(37,99,235,0.4);">
+        <span style="font-size:24px;">💼</span>
+      </div>
+      <div>
+        <h1 style="font-size:22px; font-weight:800; color:#ffffff; margin:0;">Bos UMKM App</h1>
+        <span style="font-size:12px; color:#93c5fd; font-weight:600;">Frontend Mobile Shell & PWA</span>
+      </div>
+    </div>
+
+    <h2>Tampilan Modern Berkelas Eksekutif untuk Pelaku UMKM</h2>
+    <p>
+      Desain ini dibuat mengacu pada sketsa konsep Anda, lengkap dengan 4 layar navigasi: <strong>Beranda</strong>,
+      <strong>Daftar Barang</strong>, <strong>Riwayat Transaksi</strong>, dan <strong>Akun / Pengaturan</strong>.
+    </p>
+
+    <div class="desktop-feature-tags">
+      <span class="desktop-tag">🏠 Beranda & Metrik (*)</span>
+      <span class="desktop-tag">📦 Daftar Barang & Scan Barcode</span>
+      <span class="desktop-tag">🕒 Riwayat & Download Excel</span>
+      <span class="desktop-tag">👤 Akun & Pengaturan Toko</span>
+      <span class="desktop-tag">🛒 Kasir POS Terpadu</span>
+    </div>
+
+    <div class="apk-build-tip">
+      <div style="font-weight:700; color:#ffffff; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
+        <span>📱</span> Kesiapan Backend & Menjadi APK:
+      </div>
+      File <code>js/api.js</code> dan panduan <code>API_GUIDE.md</code> sudah disiapkan agar rekan backend Anda dapat
+      langsung menghubungkan REST API database.
+    </div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; align-items:center; width:100%; max-width:440px;">
+    <!-- Switcher Cepat Antar Layar (Demo & Uji Coba) -->
+    <div class="screen-switcher-bar">
+      <span>Lihat Layar:</span>
+      <a href="index.html" class="switcher-btn active" data-tab-switch="home">🏠 Beranda</a>
+      <a href="daftar-barang.html" class="switcher-btn" data-tab-switch="warehouse">📦 Daftar Barang</a>
+      <a href="riwayat.html" class="switcher-btn" data-tab-switch="history">🕒 Riwayat</a>
+      <a href="akun.html" class="switcher-btn" data-tab-switch="account">👤 Akun</a>
+    </div>
+
+    <!-- Container Layar Smartphone (Responsive Mobile Viewport) -->
+    <main class="app-viewport" id="appViewport">
+
+      <!-- ======================================================================
+         LAYAR 1: BERANDA (Dashboard & Data Hari Ini Sesuai Foto Pertama)
+         ====================================================================== -->
+      <div class="screen-view active" id="viewHome">
+        <!-- Header Beranda -->
+        <header class="app-header">
+          <div class="header-top-row">
+            <div class="brand-wrapper">
+              <div class="brand-title">Bos UMKM</div>
+              <div class="store-subtitle" id="storeSelector">
+                <span>Toko Berkah Mandiri</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="header-actions">
+              <button class="icon-btn btn-trigger-support" title="Bantuan CS & Helpdesk" aria-label="Bantuan CS">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                  <path
+                    d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z">
+                  </path>
+                </svg>
+              </button>
+              <button class="icon-btn btn-trigger-notif" title="Notifikasi" aria-label="Notifikasi">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                  <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+                </svg>
+                <span class="badge-dot"></span>
+              </button>
+            </div>
+          </div>
+
+          <div class="premium-pill btn-trigger-premium" title="Status Keanggotaan">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14v2H5v-2z" />
+            </svg>
+            <span>Premium</span>
+          </div>
+        </header>
+
+        <!-- Isi Konten Beranda -->
+        <div class="app-content">
+          <!-- Card "Data hari ini" -->
+          <section class="data-card" aria-label="Ringkasan Data Hari Ini">
+            <div class="data-card-header">
+              <div class="card-title-group">
+                <h2 class="card-title">Data hari ini</h2>
+              </div>
+              <button class="privacy-toggle-btn" id="privacyToggleBtn" title="Buka/Tutup Nominal Privasi">
+                <span id="privacyIcon">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </span>
+                <span id="privacyText">Buka Nilai</span>
+              </button>
+            </div>
+
+            <div class="metrics-grid">
+              <div class="metric-item">
+                <span class="metric-label">Stok</span>
+                <div class="metric-value-box">
+                  <span class="metric-value" id="valStock">*</span>
+                  <span class="metric-indicator indicator-green" id="indStock">●</span>
+                </div>
+                <span class="metric-sub">Tersedia di etalase</span>
+              </div>
+
+              <div class="metric-item">
+                <span class="metric-label">Keluar</span>
+                <div class="metric-value-box">
+                  <span class="metric-value" id="valStockOut">*</span>
+                  <span class="metric-indicator indicator-red" id="indStockOut">●</span>
+                </div>
+                <span class="metric-sub">Total barang terjual</span>
+              </div>
+
+              <div class="metric-item">
+                <span class="metric-label">Omzet</span>
+                <div class="metric-value-box">
+                  <span class="metric-value" id="valTurnover">*</span>
+                  <span class="metric-indicator indicator-black" id="indTurnover"></span>
+                </div>
+                <span class="metric-sub">Pendapatan kotor</span>
+              </div>
+
+              <div class="metric-item">
+                <span class="metric-label">Untung</span>
+                <div class="metric-value-box">
+                  <span class="metric-value" id="valProfit">*</span>
+                  <span class="metric-indicator indicator-black" id="indProfit"></span>
+                </div>
+                <span class="metric-sub">Estimasi laba bersih</span>
+              </div>
+            </div>
+
+            <button class="btn-report" id="btnReport">
+              <span>Lihat Laporan</span>
+              <span class="arrow-icon">›</span>
+            </button>
+          </section>
+
+          <!-- Menu Utama 3 Kolom: Stok, Operasional, Marketing -->
+          <section aria-label="Menu Fitur Utama">
+            <div class="section-title">
+              <span>Modul Bisnis</span>
+              <span class="section-link" id="btnSeeAllModules">Semua Fitur</span>
+            </div>
+
+            <div class="main-menu-grid">
+              <div class="menu-card" id="menuStock">
+                <div class="menu-icon-wrapper menu-icon-stok">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                      d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z">
+                    </path>
+                    <path d="m3.3 7 8.7 5 8.7-5"></path>
+                    <path d="M12 22V12"></path>
+                  </svg>
+                </div>
+                <div class="menu-title">Stok</div>
+                <span class="menu-badge badge-info">Inventaris</span>
+              </div>
+
+              <div class="menu-card" id="menuOps">
+                <div class="menu-icon-wrapper menu-icon-operasional">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="20" x2="18" y2="10"></line>
+                    <line x1="12" y1="20" x2="12" y2="4"></line>
+                    <line x1="6" y1="20" x2="6" y2="14"></line>
+                    <path d="M3 3l7 7 4-4 7 7"></path>
+                  </svg>
+                </div>
+                <div class="menu-title">Operasional</div>
+                <span class="menu-badge badge-warning">Pengeluaran</span>
+              </div>
+
+              <div class="menu-card" id="menuMarketing">
+                <div class="menu-icon-wrapper menu-icon-marketing">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path
+                      d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                    </path>
+                  </svg>
+                </div>
+                <div class="menu-title">Marketing</div>
+                <span class="menu-badge badge-success">Promosi WA</span>
+              </div>
+            </div>
+
+            <div class="quick-shortcuts">
+              <button class="shortcut-btn" id="btnQuickPos">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="8" cy="21" r="1" />
+                  <circle cx="19" cy="21" r="1" />
+                  <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+                </svg>
+                <span>Kasir POS</span>
+              </button>
+              <button class="shortcut-btn" id="btnQuickScan">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <rect width="18" height="18" x="3" y="3" rx="2" />
+                  <path d="M7 7h.01" />
+                  <path d="M17 7h.01" />
+                  <path d="M7 17h.01" />
+                  <path d="M17 17h.01" />
+                </svg>
+                <span>Scan QRIS</span>
+              </button>
+              <button class="shortcut-btn" id="btnQuickExpense" onclick="document.getElementById('menuOps').click();">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+                <span>Catat Biaya</span>
+              </button>
+            </div>
+          </section>
+
+          <!-- Transaksi Terkini -->
+          <section aria-label="Transaksi Terkini" style="margin-top: 10px;">
+            <div class="section-title">
+              <span>Aktivitas Hari Ini</span>
+              <span class="section-link" id="btnSeeAllActivity">Lihat Semua</span>
+            </div>
+            <div class="transactions-container" id="recentTransactionsList"></div>
+          </section>
+        </div>
+      </div>
+
+      <!-- ======================================================================
+         LAYAR 2: DAFTAR BARANG (Sesuai Foto Baru 1)
+         ====================================================================== -->
+      <div class="screen-view" id="viewWarehouse">
+        <!-- Header Daftar Barang Sesuai Foto -->
+        <header class="app-header" style="padding-bottom: 30px;">
+          <div class="header-top-row">
+            <div class="brand-wrapper">
+              <div class="brand-title">Daftar Barang</div>
+              <div class="store-subtitle">Katalog & Stok Gudang</div>
+            </div>
+
+            <div class="header-actions">
+              <button class="icon-btn btn-trigger-support" title="Bantuan CS" aria-label="Bantuan CS">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                  <path
+                    d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z">
+                  </path>
+                </svg>
+              </button>
+              <button class="icon-btn btn-trigger-notif" title="Notifikasi" aria-label="Notifikasi">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                  <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+                </svg>
+                <span class="badge-dot"></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Kolom Pencarian dengan Ikon Scan Barcode di Kanan Sesuai Foto -->
+          <div class="search-scan-wrapper">
+            <span class="search-prefix-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </span>
+            <input type="text" id="warehouseSearchInput" class="search-scan-input"
+              placeholder="Cari nama barang atau kode SKU...">
+            <button class="scan-icon-btn" id="btnScanBarcodeInSearch" title="Scan Barcode Kamera">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
+                <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
+                <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
+                <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
+                <line x1="7" y1="12" x2="17" y2="12"></line>
+              </svg>
+            </button>
+          </div>
+        </header>
+
+        <!-- Konten Daftar Barang -->
+        <div class="app-content" style="margin-top: 0; padding-top: 10px;">
+          <!-- Filter Bar: Kategori, Stok & Sortir Sesuai Foto -->
+          <div class="filter-bar-container">
+            <button class="chip-pill active" data-filter="all">Semua kategori</button>
+            <button class="chip-pill" data-filter="Sembako">Sembako</button>
+            <button class="chip-pill" data-filter="Minuman">Minuman</button>
+            <button class="chip-pill" data-filter="Makanan">Makanan</button>
+            <button class="chip-pill" data-filter="low">Stok Menipis</button>
+            <button class="sort-icon-btn" id="btnSortProducts" title="Urutkan Produk">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <polyline points="19 12 12 19 5 12"></polyline>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Daftar Kartu Produk Modern -->
+          <div class="product-items-list" id="warehouseProductList"></div>
+        </div>
+
+        <!-- Tombol Melayang "+ Barang" Sesuai Foto Pengguna -->
+        <button class="fab-add-product" id="fabAddProduct">
+          <span style="font-size:20px; font-weight:900;">+</span>
+          <span>Barang</span>
+        </button>
+      </div>
+
+      <!-- ======================================================================
+         LAYAR 3: RIWAYAT (Sesuai Foto Baru 2 & 4)
+         ====================================================================== -->
+      <div class="screen-view" id="viewHistory">
+        <!-- Header Riwayat Sesuai Foto -->
+        <header class="app-header" style="padding-bottom: 24px;">
+          <div class="header-top-row">
+            <div class="brand-wrapper">
+              <div class="brand-title">Riwayat</div>
+              <div class="store-subtitle">Catatan Aktivitas & Transaksi Toko</div>
+            </div>
+
+            <div class="header-actions">
+              <button class="icon-btn btn-trigger-support" title="Bantuan CS" aria-label="Bantuan CS">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                  <path
+                    d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z">
+                  </path>
+                </svg>
+              </button>
+              <button class="icon-btn btn-trigger-notif" title="Notifikasi" aria-label="Notifikasi">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                  <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+                </svg>
+                <span class="badge-dot"></span>
+              </button>
+            </div>
+          </div>
+
+          <div class="search-scan-wrapper">
+            <span class="search-prefix-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </span>
+            <input type="text" id="historySearchInput" class="search-scan-input"
+              placeholder="Cari transaksi / nama pelanggan...">
+          </div>
+        </header>
+
+        <!-- Konten Riwayat -->
+        <div class="app-content" style="margin-top: 0; padding-top: 10px;">
+          <div class="filter-tabs" style="margin-top: 10px;">
+            <div class="filter-tab active" data-tx-filter="all">Semua</div>
+            <div class="filter-tab" data-tx-filter="sale">Penjualan</div>
+            <div class="filter-tab" data-tx-filter="expense">Pengeluaran</div>
+            <div class="filter-tab" id="btnToggleEmptyHistory" title="Lihat Tampilan Kosong Sesuai Foto"
+              style="color:#d97706;">Mode Kosong</div>
+          </div>
+
+          <!-- Daftar Transaksi Real -->
+          <div class="transactions-container" id="historyTransactionsList"></div>
+
+          <!-- Empty State Container Sesuai Foto Pengguna -->
+          <div class="empty-state-box" id="historyEmptyState" style="display:none;">
+            <div class="empty-state-illustration">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+            </div>
+            <h3 class="empty-state-title">Belum ada riwayat</h3>
+            <p class="empty-state-desc">
+              Catat stok masuk, keluar, atau transaksi kasir maka akan otomatis muncul di sini.
+            </p>
+            <button class="btn-download-excel" id="btnDownloadExcelEmpty">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Download Excel</span>
+            </button>
+          </div>
+
+          <!-- Tombol Download Excel Tetap di Bagian Bawah Riwayat -->
+          <div id="historyActionRow" style="margin-top: 16px; text-align: center;">
+            <button class="btn-download-excel" id="btnDownloadExcel">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Download Rekap Excel</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================================
+         LAYAR 4: AKUN & PENGATURAN TOKO (Sesuai Foto Baru 3)
+         ====================================================================== -->
+      <div class="screen-view" id="viewAccount">
+        <!-- Header Akun Sesuai Foto -->
+        <header class="app-header">
+          <div class="header-top-row">
+            <div class="brand-wrapper">
+              <div class="brand-title">Akun</div>
+              <div class="store-subtitle">Profil Usaha & Konfigurasi</div>
+            </div>
+
+            <div class="header-actions">
+              <button class="icon-btn btn-trigger-support" title="Bantuan CS" aria-label="Bantuan CS">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                  <path
+                    d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z">
+                  </path>
+                </svg>
+              </button>
+              <button class="icon-btn btn-trigger-notif" title="Notifikasi" aria-label="Notifikasi">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                  <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+                </svg>
+                <span class="badge-dot"></span>
+              </button>
+            </div>
+          </div>
+
+          <div class="premium-pill btn-trigger-premium" title="Status Keanggotaan">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14v2H5v-2z" />
+            </svg>
+            <span>Premium</span>
+          </div>
+        </header>
+
+        <!-- Konten Akun & Pengaturan -->
+        <div class="app-content">
+          <!-- Hero Card Profil Toko -->
+          <div class="account-hero-card">
+            <div class="account-avatar">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80"
+                alt="Avatar Juragan">
+            </div>
+            <div class="account-details">
+              <h3>Andhika Putra</h3>
+              <p>Juragan • <span class="account-store-name"><strong>Toko Berkah Mandiri</strong></span></p>
+              <span class="account-badge-pill">
+                👑 Akun Premium Aktif (s/d Des 2026)
+              </span>
+            </div>
+          </div>
+
+          <!-- Grup Khusus: Toko & Multi-Akun (Fitur Ganti & Tambah Toko Tanpa Logout) -->
+          <div class="settings-group">
+            <div class="settings-group-title"
+              style="color:#2563eb; display:flex; justify-content:space-between; align-items:center;">
+              <span>Toko & Multi-Akun</span>
+              <span
+                style="font-size:11px; background:#eff6ff; color:#2563eb; padding:2px 8px; border-radius:99px; font-weight:700;">Tanpa
+                Logout</span>
+            </div>
+            <div class="settings-card">
+              <div class="settings-item btn-switch-store" style="cursor:pointer;">
+                <div class="settings-item-left">
+                  <div class="settings-icon" style="background:#eff6ff; color:#2563eb;">🔄</div>
+                  <div>
+                    <div class="settings-label">Ganti Toko / Cabang Aktif</div>
+                    <div class="settings-sublabel account-store-name">Toko Berkah Mandiri (Pusat)</div>
+                  </div>
+                </div>
+                <span
+                  style="font-size:12px; font-weight:800; color:#2563eb; background:#dbeafe; padding:4px 10px; border-radius:99px;">Ganti
+                  ›</span>
+              </div>
+
+              <div class="settings-item btn-add-store-direct" style="cursor:pointer; background:#f0fdf4;">
+                <div class="settings-item-left">
+                  <div class="settings-icon" style="background:#dcfce7; color:#16a34a;">➕</div>
+                  <div>
+                    <div class="settings-label" style="color:#15803d;">+ Tambah Toko / Cabang Baru</div>
+                    <div class="settings-sublabel">Buka cabang usaha baru dalam 1 akun</div>
+                  </div>
+                </div>
+                <div class="settings-chevron" style="color:#16a34a;">›</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grup 1: Bisnis & Toko -->
+          <div class="settings-group">
+            <div class="settings-group-title">Manajemen Bisnis</div>
+            <div class="settings-card">
+              <div class="settings-item" onclick="alert('Pengaturan Informasi Toko');">
+                <div class="settings-item-left">
+                  <div class="settings-icon" style="background:#eff6ff; color:#2563eb;">🏬</div>
+                  <div>
+                    <div class="settings-label">Informasi Toko & Cabang</div>
+                    <div class="settings-sublabel">Alamat, jam buka, kontak WhatsApp</div>
+                  </div>
+                </div>
+                <div class="settings-chevron">›</div>
+              </div>
+
+              <div class="settings-item" onclick="alert('Kelola Akses Karyawan & Kasir');">
+                <div class="settings-item-left">
+                  <div class="settings-icon" style="background:#f0fdf4; color:#16a34a;">👥</div>
+                  <div>
+                    <div class="settings-label">Kelola Karyawan / Kasir</div>
+                    <div class="settings-sublabel">2 Kasir aktif, batasi hak akses</div>
+                  </div>
+                </div>
+                <div class="settings-chevron">›</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grup 2: Keuangan & QRIS -->
+          <div class="settings-group">
+            <div class="settings-group-title">Keuangan & Pembayaran</div>
+            <div class="settings-card">
+              <div class="settings-item" onclick="alert('Pengaturan QRIS Toko');">
+                <div class="settings-item-left">
+                  <div class="settings-icon" style="background:#fdf4ff; color:#9333ea;">💳</div>
+                  <div>
+                    <div class="settings-label">Hubungkan QRIS Toko</div>
+                    <div class="settings-sublabel">Terima pembayaran QRIS langsung</div>
+                  </div>
+                </div>
+                <div class="settings-chevron">›</div>
+              </div>
+
+              <div class="settings-item" onclick="alert('Pengaturan Rekening Bank Penarikan');">
+                <div class="settings-item-left">
+                  <div class="settings-icon" style="background:#fffbeb; color:#d97706;">🏦</div>
+                  <div>
+                    <div class="settings-label">Rekening Bank Pencairan</div>
+                    <div class="settings-sublabel">BCA - 8271029381 (a.n Andhika)</div>
+                  </div>
+                </div>
+                <div class="settings-chevron">›</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grup 3: Perangkat Keras -->
+          <div class="settings-group">
+            <div class="settings-group-title">Perangkat Kasir</div>
+            <div class="settings-card">
+              <div class="settings-item" onclick="alert('Koneksi Printer Bluetooth');">
+                <div class="settings-item-left">
+                  <div class="settings-icon" style="background:#f1f5f9; color:#475569;">🖨️</div>
+                  <div>
+                    <div class="settings-label">Printer Struk Bluetooth</div>
+                    <div class="settings-sublabel">Cetak nota kasir thermal 58mm / 80mm</div>
+                  </div>
+                </div>
+                <div class="settings-chevron">›</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grup 4: Bantuan & Keamanan -->
+          <div class="settings-group">
+            <div class="settings-group-title">Keamanan & Bantuan</div>
+            <div class="settings-card">
+              <div class="settings-item" onclick="document.querySelector('.btn-trigger-support').click();">
+                <div class="settings-item-left">
+                  <div class="settings-icon" style="background:#ecfdf5; color:#059669;">🎧</div>
+                  <div>
+                    <div class="settings-label">Pusat Bantuan WhatsApp</div>
+                    <div class="settings-sublabel">Layanan CS resmi 24 jam</div>
+                  </div>
+                </div>
+                <div class="settings-chevron">›</div>
+              </div>
+
+              <div class="settings-item" onclick="alert('Logout / Ganti Akun');">
+                <div class="settings-item-left">
+                  <div class="settings-icon" style="background:#fef2f2; color:#dc2626;">🚪</div>
+                  <div>
+                    <div class="settings-label" style="color:#dc2626;">Keluar Akun</div>
+                    <div class="settings-sublabel">Ganti akun toko lain</div>
+                  </div>
+                </div>
+                <div class="settings-chevron">›</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ======================================================================
+         BOTTOM NAVIGATION BAR (Curved Dock dengan Tombol Profil Emas di Tengah)
+         Sesuai Sketsa Foto Pengguna & Terhubung ke Semua Layar
+         ====================================================================== -->
+      <nav class="bottom-nav-container" aria-label="Navigasi Utama">
+        <!-- Nav 1: Beranda -->
+        <a href="index.html" class="nav-item active" data-tab="home" title="Beranda">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          <span>Beranda</span>
+        </a>
+
+        <!-- Nav 2: Toko / Gudang (Daftar Barang Sesuai Foto) -->
+        <a href="daftar-barang.html" class="nav-item" data-tab="warehouse" title="Toko & Gudang">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 3h18v18H3z"></path>
+            <path d="M3 9h18"></path>
+            <path d="M9 21V9"></path>
+          </svg>
+          <span>Gudang</span>
+        </a>
+
+        <!-- Nav Tengah Melayang: Profil Pemilik Usaha (Lingkaran Kuning Emas Sesuai Foto) -->
+        <div class="center-profile-anchor">
+          <a href="akun.html" class="center-profile-ring" id="centerProfileBtn" title="Profil Pemilik Usaha"
+            aria-label="Profil Akun">
+            <div class="center-profile-inner">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+              </svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- Nav 3: Riwayat -->
+        <a href="riwayat.html" class="nav-item" data-tab="history" title="Riwayat Transaksi">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span>Riwayat</span>
+        </a>
+
+        <!-- Nav 4: Pengaturan / Setting -->
+        <a href="akun.html" class="nav-item" data-tab="settings" title="Pengaturan">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path
+              d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z">
+            </path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+          <span>Setting</span>
+        </a>
+      </nav>
+
+      <!-- Modal Drawer Reusable Container -->
+      <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-drawer">
+          <div class="drawer-drag-handle"></div>
+          <div class="modal-header">
+            <h3 class="modal-title" id="modalTitle">Judul Modal</h3>
+            <button class="modal-close-btn" id="modalCloseBtn" aria-label="Tutup Modal">&times;</button>
+          </div>
+          <div id="modalBody">
+            <!-- Konten dinamis modal disisipkan via app.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Container Notifikasi Toast -->
+      <div class="toast-container" id="toastContainer"></div>
+
+    </main>
+  </div>
+
+  <!-- Script Modules (Cache Busted) -->
+  <script src="js/api.js?v=2.5"></script>
+  <script src="js/app.js?v=2.5"></script>
+  <script>
+    // Hapus service worker lama jika ada
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(regs => {
+        regs.forEach(r => r.unregister());
+      });
+    }
+  </script>
+</body>
+
+</html>

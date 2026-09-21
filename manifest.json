@@ -1,0 +1,22 @@
+{
+  "name": "Bos UMKM - Asisten Bisnis & Keuangan",
+  "short_name": "Bos UMKM",
+  "description": "Aplikasi manajemen stok, kasir POS, omzet, dan operasional UMKM Indonesia",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#1E40AF",
+  "theme_color": "#2563EB",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

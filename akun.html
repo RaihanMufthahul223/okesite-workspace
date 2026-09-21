@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#1053d4">
+  <title>Akun - Bos UMKM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=2">
+  <link rel="stylesheet" href="css/responsive.css?v=2">
+</head>
+<body>
+
+  <!-- Container Smartphone Simulator -->
+  <main class="app-viewport" id="appViewport">
+
+    <!-- Header Akun (Sesuai Foto Pengguna) -->
+    <header class="app-header">
+      <div class="header-top-row">
+        <div class="brand-wrapper">
+          <div class="brand-title">Akun</div>
+          <div class="store-subtitle btn-switch-store" id="storeSelector" title="Klik untuk ganti toko" style="cursor:pointer;">
+            <span class="store-name-text">Toko Berkah Mandiri</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button class="icon-btn btn-trigger-support" title="Bantuan CS">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+              <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+            </svg>
+          </button>
+          <button class="icon-btn btn-trigger-notif" title="Notifikasi">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+            </svg>
+            <span class="badge-dot"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Lencana Premium Emas (Sesuai Foto) -->
+      <div class="premium-pill btn-trigger-premium" title="Status Keanggotaan">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14v2H5v-2z"/>
+        </svg>
+        <span>Premium</span>
+      </div>
+    </header>
+
+    <!-- Konten Akun & Pengaturan -->
+    <div class="app-content" style="padding-bottom: 110px;">
+      <!-- Hero Card Profil Toko -->
+      <div class="account-hero-card">
+        <div class="account-avatar">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" alt="Avatar Juragan">
+        </div>
+        <div class="account-details">
+          <h3>Andhika Putra</h3>
+          <p>Juragan • <span class="account-store-name"><strong>Toko Berkah Mandiri</strong></span></p>
+          <span class="account-badge-pill">
+            👑 Akun Premium Aktif (s/d Des 2026)
+          </span>
+        </div>
+      </div>
+
+      <!-- Grup Khusus: Toko & Multi-Akun (Fitur Ganti & Tambah Toko Tanpa Logout) -->
+      <div class="settings-group">
+        <div class="settings-group-title" style="color:#2563eb; display:flex; justify-content:space-between; align-items:center;">
+          <span>Toko & Multi-Akun</span>
+          <span style="font-size:11px; background:#eff6ff; color:#2563eb; padding:2px 8px; border-radius:99px; font-weight:700;">Tanpa Logout</span>
+        </div>
+        <div class="settings-card">
+          <div class="settings-item btn-switch-store" style="cursor:pointer;">
+            <div class="settings-item-left">
+              <div class="settings-icon" style="background:#eff6ff; color:#2563eb;">🔄</div>
+              <div>
+                <div class="settings-label">Ganti Toko / Cabang Aktif</div>
+                <div class="settings-sublabel account-store-name">Toko Berkah Mandiri (Pusat)</div>
+              </div>
+            </div>
+            <span style="font-size:12px; font-weight:800; color:#2563eb; background:#dbeafe; padding:4px 10px; border-radius:99px;">Ganti ›</span>
+          </div>
+
+          <div class="settings-item btn-add-store-direct" style="cursor:pointer; background:#f0fdf4;">
+            <div class="settings-item-left">
+              <div class="settings-icon" style="background:#dcfce7; color:#16a34a;">➕</div>
+              <div>
+                <div class="settings-label" style="color:#15803d;">+ Tambah Toko / Cabang Baru</div>
+                <div class="settings-sublabel">Buka cabang usaha baru dalam 1 akun</div>
+              </div>
+            </div>
+            <div class="settings-chevron" style="color:#16a34a;">›</div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Grup 1: Bisnis & Toko -->
+      <div class="settings-group">
+        <div class="settings-group-title">Manajemen Bisnis</div>
+        <div class="settings-card">
+          <div class="settings-item" onclick="alert('Pengaturan Informasi Toko');">
+            <div class="settings-item-left">
+              <div class="settings-icon" style="background:#eff6ff; color:#2563eb;">🏬</div>
+              <div>
+                <div class="settings-label">Informasi Toko & Cabang</div>
+                <div class="settings-sublabel">Alamat, jam buka, kontak WhatsApp</div>
+              </div>
+            </div>
+            <div class="settings-chevron">›</div>
+          </div>
+
+          <div class="settings-item" onclick="alert('Kelola Akses Karyawan & Kasir');">
+            <div class="settings-item-left">
+              <div class="settings-icon" style="background:#f0fdf4; color:#16a34a;">👥</div>
+              <div>
+                <div class="settings-label">Kelola Karyawan / Kasir</div>
+                <div class="settings-sublabel">2 Kasir aktif, batasi hak akses</div>
+              </div>
+            </div>
+            <div class="settings-chevron">›</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grup 2: Keuangan & QRIS -->
+      <div class="settings-group">
+        <div class="settings-group-title">Keuangan & Pembayaran</div>
+        <div class="settings-card">
+          <div class="settings-item" onclick="alert('Pengaturan QRIS Toko');">
+            <div class="settings-item-left">
+              <div class="settings-icon" style="background:#fdf4ff; color:#9333ea;">💳</div>
+              <div>
+                <div class="settings-label">Hubungkan QRIS Toko</div>
+                <div class="settings-sublabel">Terima pembayaran QRIS langsung</div>
+              </div>
+            </div>
+            <div class="settings-chevron">›</div>
+          </div>
+
+          <div class="settings-item" onclick="alert('Pengaturan Rekening Bank Penarikan');">
+            <div class="settings-item-left">
+              <div class="settings-icon" style="background:#fffbeb; color:#d97706;">🏦</div>
+              <div>
+                <div class="settings-label">Rekening Bank Pencairan</div>
+                <div class="settings-sublabel">BCA - 8271029381 (a.n Andhika)</div>
+              </div>
+            </div>
+            <div class="settings-chevron">›</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grup 3: Perangkat Keras -->
+      <div class="settings-group">
+        <div class="settings-group-title">Perangkat Kasir</div>
+        <div class="settings-card">
+          <div class="settings-item" onclick="alert('Koneksi Printer Bluetooth');">
+            <div class="settings-item-left">
+              <div class="settings-icon" style="background:#f1f5f9; color:#475569;">🖨️</div>
+              <div>
+                <div class="settings-label">Printer Struk Bluetooth</div>
+                <div class="settings-sublabel">Cetak nota thermal 58mm / 80mm</div>
+              </div>
+            </div>
+            <div class="settings-chevron">›</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grup 4: Bantuan & Keamanan -->
+      <div class="settings-group">
+        <div class="settings-group-title">Keamanan & Bantuan</div>
+        <div class="settings-card">
+          <div class="settings-item" onclick="document.querySelector('.btn-trigger-support').click();">
+            <div class="settings-item-left">
+              <div class="settings-icon" style="background:#ecfdf5; color:#059669;">🎧</div>
+              <div>
+                <div class="settings-label">Pusat Bantuan WhatsApp</div>
+                <div class="settings-sublabel">Layanan CS resmi 24 jam</div>
+              </div>
+            </div>
+            <div class="settings-chevron">›</div>
+          </div>
+
+          <div class="settings-item" onclick="alert('Logout / Ganti Akun');">
+            <div class="settings-item-left">
+              <div class="settings-icon" style="background:#fef2f2; color:#dc2626;">🚪</div>
+              <div>
+                <div class="settings-label" style="color:#dc2626;">Keluar Akun</div>
+                <div class="settings-sublabel">Ganti akun toko lain</div>
+              </div>
+            </div>
+            <div class="settings-chevron">›</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Navigation Bar Melengkung -->
+    <nav class="bottom-nav-container" aria-label="Navigasi Utama">
+      <a href="index.html" class="nav-item" title="Beranda">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        <span>Beranda</span>
+      </a>
+
+      <a href="daftar-barang.html" class="nav-item" title="Toko & Gudang">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M3 3h18v18H3z"></path>
+          <path d="M3 9h18"></path>
+          <path d="M9 21V9"></path>
+        </svg>
+        <span>Gudang</span>
+      </a>
+
+      <div class="center-profile-anchor">
+        <a href="akun.html" class="center-profile-ring" title="Profil Pemilik">
+          <div class="center-profile-inner">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+          </div>
+        </a>
+      </div>
+
+      <a href="riwayat.html" class="nav-item" title="Riwayat Transaksi">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span>Riwayat</span>
+      </a>
+
+      <a href="akun.html" class="nav-item active" title="Pengaturan">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+        <span>Setting</span>
+      </a>
+    </nav>
+
+    <!-- Modal Drawer Container -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal-drawer">
+        <div class="drawer-drag-handle"></div>
+        <div class="modal-header">
+          <h3 class="modal-title" id="modalTitle">Judul Modal</h3>
+          <button class="modal-close-btn" id="modalCloseBtn">&times;</button>
+        </div>
+        <div id="modalBody"></div>
+      </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+  </main>
+
+  <script src="js/api.js?v=2"></script>
+  <script src="js/app.js?v=2"></script>
+</body>
+</html>
