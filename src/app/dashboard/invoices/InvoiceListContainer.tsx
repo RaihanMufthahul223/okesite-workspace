@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { PaymentDialog } from "./InvoiceDialogs";
+import { PaymentDialog, EditInvoiceDialog, DeleteInvoiceButton } from "./InvoiceDialogs";
 import { Search, Filter, FileText, Calendar, Wallet } from "lucide-react";
 import { CreateInvoiceDialog } from "./InvoiceDialogs";
 
@@ -207,7 +207,11 @@ export function InvoiceListContainer({
                         </span>
                       </TableCell>
                       <TableCell className="pr-6 text-right">
-                        <PaymentDialog invoice={inv} />
+                        <div className="flex items-center justify-end gap-1">
+                          <PaymentDialog invoice={inv} />
+                          <EditInvoiceDialog invoice={inv} dealClients={dealClients} services={services} />
+                          <DeleteInvoiceButton id={inv.id} clientName={inv.clientName} />
+                        </div>
                       </TableCell>
                     </TableRow>
                   );
@@ -279,7 +283,11 @@ export function InvoiceListContainer({
                       <Calendar className="w-3.5 h-3.5 text-slate-400" />
                       {inv.dueDate ? `Jt. Tempo ${formatDate(inv.dueDate)}` : "Tanpa Jatuh Tempo"}
                     </span>
-                    <PaymentDialog invoice={inv} />
+                    <div className="flex items-center gap-1">
+                      <PaymentDialog invoice={inv} />
+                      <EditInvoiceDialog invoice={inv} dealClients={dealClients} services={services} />
+                      <DeleteInvoiceButton id={inv.id} clientName={inv.clientName} />
+                    </div>
                   </div>
                 </div>
               );

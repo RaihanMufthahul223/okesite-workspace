@@ -17,6 +17,15 @@ const CreateInvoiceSchema = z.object({
   dueDate: z.string().optional().or(z.literal("")),
 });
 
+const UpdateInvoiceSchema = z.object({
+  clientId: z.coerce.number().int().positive("Klien wajib dipilih"),
+  serviceId: z.coerce.number().int().positive("Layanan wajib dipilih"),
+  totalAmount: z.coerce
+    .number({ message: "Total harus berupa angka" })
+    .positive("Total harus lebih dari 0"),
+  dueDate: z.string().optional().or(z.literal("")),
+});
+
 const AddPaymentSchema = z.object({
   invoiceId: z.coerce.number().int().positive(),
   amountPaid: z.coerce
@@ -28,6 +37,7 @@ const AddPaymentSchema = z.object({
 });
 
 export type CreateInvoiceFormData = z.infer<typeof CreateInvoiceSchema>;
+export type UpdateInvoiceFormData = z.infer<typeof UpdateInvoiceSchema>;
 export type AddPaymentFormData = z.infer<typeof AddPaymentSchema>;
 
 export type ActionResult =
@@ -152,5 +162,104 @@ export async function addPayment(
   } catch (err) {
     console.error("[addPayment] DB error:", err);
     return { success: false, error: "Gagal mencatat pembayaran. Coba lagi." };
+  }
+}
+
+// ─── Update Invoice (Edit) ────────────────────────────────────────────────
+export async function updateInvoice(
+  id: number,
+  data: UpdateInvoiceFormData
+): Promise<ActionResult> {
+  const { userId } = await auth();
+  if (!userId) return { success: false, error: "Unauthorized" };
+
+  const parsed = UpdateInvoiceSchema.safeParse(data);
+  if (!parsed.success) {
+    return {
+      success: false,
+      error: parsed.error.issues.map((e) => e.message).join(", "),
+    };
+  }
+
+  const { clientId, serviceId, totalAmount, dueDate } = parsed.data;
+
+  try {
+    const [existing] = await db
+      .select()
+      .from(invoices)
+      .where(eq(invoices.id, id))
+      .limit(1);
+
+    if (!existing) {
+      return { success: false, error: "Tagihan tidak ditemukan." };
+    }
+
+    // Hitung sudah terbayar agar total baru tidak < terbayar
+    const paidRows = await db
+      .select({
+        total: sql<number>`COALESCE(SUM(${payments.amountPaid}), 0)`,
+      })
+      .from(payments)
+      .where(eq(payments.invoiceId, id));
+
+    const paidSoFar = Number(paidRows[0]?.total ?? 0);
+    if (totalAmount < paidSoFar) {
+      return {
+        success: false,
+        error: `Total baru tidak boleh kurang dari yang sudah terbayar ${new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(paidSoFar)}`,
+      };
+    }
+
+    // Recalc status berdasarkan total baru
+    let newStatus: "UNPAID" | "PARTIAL" | "PAID" = "UNPAID";
+    if (paidSoFar >= totalAmount) newStatus = "PAID";
+    else if (paidSoFar > 0) newStatus = "PARTIAL";
+
+    await db
+      .update(invoices)
+      .set({
+        clientId,
+        serviceId,
+        totalAmount,
+        dueDate: dueDate || null,
+        status: newStatus,
+      })
+      .where(eq(invoices.id, id));
+
+    revalidatePath("/dashboard/invoices");
+    revalidatePath("/dashboard");
+    return { success: true, message: "Tagihan berhasil diperbarui." };
+  } catch (err) {
+    console.error("[updateInvoice] DB error:", err);
+    return { success: false, error: "Gagal memperbarui tagihan. Coba lagi." };
+  }
+}
+
+// ─── Delete Invoice ───────────────────────────────────────────────────────
+export async function deleteInvoice(id: number): Promise<ActionResult> {
+  const { userId } = await auth();
+  if (!userId) return { success: false, error: "Unauthorized" };
+
+  try {
+    const [existing] = await db
+      .select()
+      .from(invoices)
+      .where(eq(invoices.id, id))
+      .limit(1);
+
+    if (!existing) {
+      return { success: false, error: "Tagihan tidak ditemukan." };
+    }
+
+    // Hapus payments terkait dulu (FK constraint)
+    await db.delete(payments).where(eq(payments.invoiceId, id));
+    await db.delete(invoices).where(eq(invoices.id, id));
+
+    revalidatePath("/dashboard/invoices");
+    revalidatePath("/dashboard");
+    return { success: true, message: "Tagihan berhasil dihapus." };
+  } catch (err) {
+    console.error("[deleteInvoice] DB error:", err);
+    return { success: false, error: "Gagal menghapus tagihan. Coba lagi." };
   }
 }

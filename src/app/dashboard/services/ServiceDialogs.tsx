@@ -237,13 +237,14 @@ function ServiceForm({
               <FormControl>
                 <Input
                   type="number"
-                  min={0}
-                  step={1000}
+                  inputMode="numeric"
+                  min={1}
+                  step={1}
                   placeholder="1500000"
                   className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus-visible:ring-blue-500/50"
                   {...field}
                   onChange={(e) => {
-                    const val = e.target.valueAsNumber;
+                    const val = e.target.value === "" ? 0 : e.target.valueAsNumber;
                     field.onChange(Number.isNaN(val) ? 0 : val);
                   }}
                 />
