@@ -25,10 +25,26 @@ export async function GET(
     return Response.json({ error: "Tagihan tidak ditemukan" }, { status: 404 });
   }
 
-  const [client, service, paymentRows] = await Promise.all([
+  let paymentRows: (typeof payments.$inferSelect)[] = [];
+  try {
+    paymentRows = await db.select().from(payments).where(eq(payments.invoiceId, invoiceId));
+  } catch (e) {
+    const msg = String((e as Error)?.message ?? "");
+    if (msg.includes("proof_url") || msg.includes("no such column")) {
+      const { createClient } = await import("@libsql/client/web");
+      const clientRaw = createClient({ url: process.env.TURSO_DATABASE_URL!, authToken: process.env.TURSO_AUTH_TOKEN! });
+      try {
+        const rs = await clientRaw.execute({ sql: `SELECT id, invoice_id as invoiceId, amount_paid as amountPaid, payment_date as paymentDate, payment_method as paymentMethod, note, proof_url as proofUrl FROM payments WHERE invoice_id = ?`, args: [invoiceId] });
+        paymentRows = (rs.rows as unknown as Record<string, unknown>[]).map((r) => ({ id: Number(r.id), invoiceId: Number(r.invoiceId), amountPaid: Number(r.amountPaid), paymentDate: (r.paymentDate as string) ?? null, paymentMethod: (r.paymentMethod as string) ?? null, note: (r.note as string) ?? null, proofUrl: (r.proofUrl as string) ?? null })) as unknown as typeof paymentRows;
+      } catch {
+        const rs2 = await clientRaw.execute({ sql: `SELECT id, invoice_id as invoiceId, amount_paid as amountPaid, payment_date as paymentDate, payment_method as paymentMethod, note FROM payments WHERE invoice_id = ?`, args: [invoiceId] });
+        paymentRows = (rs2.rows as unknown as Record<string, unknown>[]).map((r) => ({ id: Number(r.id), invoiceId: Number(r.invoiceId), amountPaid: Number(r.amountPaid), paymentDate: (r.paymentDate as string) ?? null, paymentMethod: (r.paymentMethod as string) ?? null, note: (r.note as string) ?? null, proofUrl: null })) as unknown as typeof paymentRows;
+      }
+    } else throw e;
+  }
+  const [client, service] = await Promise.all([
     db.select().from(clients).where(eq(clients.id, invoice.clientId)).limit(1).then((r) => r[0] ?? null),
     db.select().from(services).where(eq(services.id, invoice.serviceId)).limit(1).then((r) => r[0] ?? null),
-    db.select().from(payments).where(eq(payments.invoiceId, invoiceId)),
   ]);
 
   return Response.json(

@@ -149,16 +149,31 @@ export async function addPayment(
       };
     }
 
-    await withRetry(() =>
-      db.insert(payments).values({
-        invoiceId,
-        amountPaid,
-        paymentDate: paymentDate || new Date().toISOString().slice(0, 10),
-        paymentMethod: paymentMethod || null,
-        note: note || null,
-        proofUrl: proofUrl || null,
-      })
-    );
+    try {
+      await withRetry(() =>
+        db.insert(payments).values({
+          invoiceId,
+          amountPaid,
+          paymentDate: paymentDate || new Date().toISOString().slice(0, 10),
+          paymentMethod: paymentMethod || null,
+          note: note || null,
+          proofUrl: proofUrl || null,
+        })
+      );
+    } catch (e) {
+      const msg = String((e as Error)?.message ?? "");
+      if (msg.includes("proof_url") || msg.includes("no such column")) {
+        await withRetry(() =>
+          db.insert(payments).values({
+            invoiceId,
+            amountPaid,
+            paymentDate: paymentDate || new Date().toISOString().slice(0, 10),
+            paymentMethod: paymentMethod || null,
+            note: note || null,
+          } as never)
+        );
+      } else throw e;
+    }
 
     const newTotal = paidSoFar + amountPaid;
     let newStatus: "UNPAID" | "PARTIAL" | "PAID" = "UNPAID";

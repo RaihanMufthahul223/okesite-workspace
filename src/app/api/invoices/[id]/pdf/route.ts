@@ -6,14 +6,8 @@ import { invoices, clients, services, payments } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import jsPDF from "jspdf";
 
-// Reuse helpers inline to avoid "use client" restriction from invoice-pdf.ts
 function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
+  return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(amount);
 }
 function formatDate(dateStr: string | null): string {
   if (!dateStr) return "—";
@@ -30,25 +24,37 @@ function statusColor(s: string): [number, number, number] {
   return [244, 63, 94];
 }
 
-export async function GET(
-  _req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { userId } = await auth();
   if (!userId) return new Response("Unauthorized", { status: 401 });
-
   const { id } = await params;
   const invoiceId = Number(id);
   if (!Number.isFinite(invoiceId) || invoiceId <= 0) return new Response("ID tidak valid", { status: 400 });
-
   const [invoice] = await db.select().from(invoices).where(eq(invoices.id, invoiceId)).limit(1);
   if (!invoice) return new Response("Tagihan tidak ditemukan", { status: 404 });
 
-  const [client, service, paymentRows] = await Promise.all([
+  const [client, service] = await Promise.all([
     db.select().from(clients).where(eq(clients.id, invoice.clientId)).limit(1).then((r) => r[0] ?? null),
     db.select().from(services).where(eq(services.id, invoice.serviceId)).limit(1).then((r) => r[0] ?? null),
-    db.select().from(payments).where(eq(payments.invoiceId, invoiceId)),
   ]);
+
+  let paymentRows: (typeof payments.$inferSelect)[] = [];
+  try {
+    paymentRows = await db.select().from(payments).where(eq(payments.invoiceId, invoiceId));
+  } catch (e) {
+    const msg = String((e as Error)?.message ?? "");
+    if (msg.includes("proof_url") || msg.includes("no such column")) {
+      const { createClient } = await import("@libsql/client/web");
+      const clientRaw = createClient({ url: process.env.TURSO_DATABASE_URL!, authToken: process.env.TURSO_AUTH_TOKEN! });
+      try {
+        const rs = await clientRaw.execute({ sql: `SELECT id, invoice_id as invoiceId, amount_paid as amountPaid, payment_date as paymentDate, payment_method as paymentMethod, note, proof_url as proofUrl FROM payments WHERE invoice_id = ?`, args: [invoiceId] });
+        paymentRows = (rs.rows as unknown as Record<string, unknown>[]).map((r) => ({ id: Number(r.id), invoiceId: Number(r.invoiceId), amountPaid: Number(r.amountPaid), paymentDate: (r.paymentDate as string) ?? null, paymentMethod: (r.paymentMethod as string) ?? null, note: (r.note as string) ?? null, proofUrl: (r.proofUrl as string) ?? null })) as unknown as typeof paymentRows;
+      } catch {
+        const rs2 = await clientRaw.execute({ sql: `SELECT id, invoice_id as invoiceId, amount_paid as amountPaid, payment_date as paymentDate, payment_method as paymentMethod, note FROM payments WHERE invoice_id = ?`, args: [invoiceId] });
+        paymentRows = (rs2.rows as unknown as Record<string, unknown>[]).map((r) => ({ id: Number(r.id), invoiceId: Number(r.invoiceId), amountPaid: Number(r.amountPaid), paymentDate: (r.paymentDate as string) ?? null, paymentMethod: (r.paymentMethod as string) ?? null, note: (r.note as string) ?? null, proofUrl: null })) as unknown as typeof paymentRows;
+      }
+    } else throw e;
+  }
 
   const paidTotal = paymentRows.reduce((s, p) => s + (p.amountPaid || 0), 0);
   const remaining = Math.max(0, invoice.totalAmount - paidTotal);
@@ -60,7 +66,6 @@ export async function GET(
   const margin = 14;
   let y = 14;
 
-  // Header
   doc.setFillColor(37, 99, 235);
   doc.rect(0, 0, pageWidth, 32, "F");
   doc.setTextColor(255, 255, 255);

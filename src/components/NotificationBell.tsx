@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Bell, AlertTriangle, CalendarClock, FileText, X } from "lucide-react";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetClose } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 
 type RenewalItem = { name: string; renewalDate: string | null };
@@ -50,12 +50,25 @@ export function NotificationBell() {
 
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent side="right" className="w-full sm:w-[420px]">
-          <SheetHeader>
-            <SheetTitle className="flex items-center gap-2">
-              <Bell className="w-4 h-4 text-blue-600" />
-              Notifikasi
-            </SheetTitle>
-            <SheetDescription>Renewal & tagihan yang perlu perhatian</SheetDescription>
+          <SheetHeader className="flex flex-row items-start justify-between gap-4 space-y-0">
+            <div className="flex flex-col gap-1.5">
+              <SheetTitle className="flex items-center gap-2">
+                <Bell className="w-4 h-4 text-blue-600" />
+                Notifikasi
+              </SheetTitle>
+              <SheetDescription>Renewal & tagihan yang perlu perhatian</SheetDescription>
+            </div>
+            <SheetClose
+              render={
+                <button
+                  type="button"
+                  aria-label="Tutup notifikasi"
+                  className="shrink-0 inline-flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 hover:bg-slate-50 hover:text-slate-700 active:bg-slate-100 transition md:h-8 md:w-8"
+                />
+              }
+            >
+              <X className="w-5 h-5 md:w-4 md:h-4" />
+            </SheetClose>
           </SheetHeader>
 
           <div className="flex-1 overflow-y-auto p-6 space-y-6">
@@ -115,6 +128,22 @@ export function NotificationBell() {
                 </div>
               </>
             )}
+          </div>
+
+          {/* Mobile-friendly exit footer - sticky bottom */}
+          <div className="shrink-0 border-t border-slate-200 bg-white p-4 md:p-3">
+            <SheetClose
+              render={
+                <button
+                  type="button"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white hover:bg-slate-800 active:bg-slate-950 transition md:py-2.5"
+                />
+              }
+            >
+              <X className="w-4 h-4" />
+              Tutup
+            </SheetClose>
+            <p className="mt-2 text-center text-xs text-slate-400 md:hidden">Ketuk di luar panel untuk menutup</p>
           </div>
         </SheetContent>
       </Sheet>

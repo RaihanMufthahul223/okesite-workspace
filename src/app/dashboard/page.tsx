@@ -2,8 +2,8 @@ export const runtime = "edge";
 
 import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
-import { db } from "@/db";
-import { clients, invoices, payments } from "@/db/schema";
+import { db, safeSelectPayments } from "@/db";
+import { clients, invoices } from "@/db/schema";
 import { Users, TrendingUp, AlertCircle, Calendar, ArrowRight, FileText, CheckCircle2, Clock, CalendarClock, AlertTriangle, History } from "lucide-react";
 import type { Metadata } from "next";
 import { RevenueChart, InvoiceStatusChart, ClientStatusChart } from "./DashboardCharts";
@@ -33,7 +33,7 @@ export default async function DashboardPage() {
   const [allClients, allInvoices, allPayments] = await Promise.all([
     db.select().from(clients),
     db.select().from(invoices),
-    db.select().from(payments),
+    safeSelectPayments(),
   ]);
 
   // 1. Total Active Clients (Status DEAL)

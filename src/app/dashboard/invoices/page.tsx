@@ -1,7 +1,7 @@
 export const runtime = "edge";
 
-import { db } from "@/db";
-import { invoices, clients, services, payments } from "@/db/schema";
+import { db, safeSelectPayments } from "@/db";
+import { invoices, clients, services } from "@/db/schema";
 import { desc, eq } from "drizzle-orm";
 import { CreateInvoiceDialog } from "./InvoiceDialogs";
 import { InvoiceListContainer } from "./InvoiceListContainer";
@@ -32,7 +32,7 @@ export default async function InvoicesPage() {
   const [clientRows, serviceRows, paymentRows] = await Promise.all([
     db.select({ id: clients.id, name: clients.name }).from(clients),
     db.select({ id: services.id, name: services.name }).from(services),
-    db.select().from(payments),
+    safeSelectPayments(),
   ]);
 
   const clientMap = new Map(clientRows.map((c) => [c.id, c.name]));
