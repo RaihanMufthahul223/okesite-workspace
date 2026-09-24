@@ -3,6 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // Required for @opennextjs/cloudflare
   output: "standalone",
+  // Fix EPERM symlink @libsql/client di Windows + hindari tracing native binary
+  serverExternalPackages: ["@libsql/client", "drizzle-orm"],
   async headers() {
     return [
       {
