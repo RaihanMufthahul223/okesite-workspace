@@ -1,4 +1,3 @@
-export const runtime = "edge";
 
 import { db } from "@/db";
 import { clients } from "@/db/schema";
@@ -7,6 +6,8 @@ import { AddClientDialog } from "./AddClientDialog";
 import { ClientListContainer } from "./ClientListContainer";
 import { Users, CheckCircle, Clock, XCircle } from "lucide-react";
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Clients & Leads — OkeSite CRM",

@@ -1,4 +1,3 @@
-export const runtime = "edge";
 
 import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
@@ -7,6 +6,8 @@ import { clients, invoices } from "@/db/schema";
 import { Users, TrendingUp, AlertCircle, Calendar, ArrowRight, FileText, CheckCircle2, Clock, CalendarClock, AlertTriangle, History } from "lucide-react";
 import type { Metadata } from "next";
 import { RevenueChart, InvoiceStatusChart, ClientStatusChart } from "./DashboardCharts";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Dashboard — OkeSite CRM",

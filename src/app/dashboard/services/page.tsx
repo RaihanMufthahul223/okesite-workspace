@@ -1,4 +1,3 @@
-export const runtime = "edge";
 
 import { db } from "@/db";
 import { services } from "@/db/schema";
@@ -7,6 +6,8 @@ import { AddServiceDialog } from "./ServiceDialogs";
 import { ServiceListContainer } from "./ServiceListContainer";
 import { Package, TrendingUp } from "lucide-react";
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Layanan — OkeSite CRM",

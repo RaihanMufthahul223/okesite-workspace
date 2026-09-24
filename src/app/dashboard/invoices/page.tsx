@@ -1,4 +1,3 @@
-export const runtime = "edge";
 
 import { db, safeSelectPayments } from "@/db";
 import { invoices, clients, services } from "@/db/schema";
@@ -7,6 +6,8 @@ import { CreateInvoiceDialog } from "./InvoiceDialogs";
 import { InvoiceListContainer } from "./InvoiceListContainer";
 import { FileText, AlertCircle, CheckCircle2, DollarSign } from "lucide-react";
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Tagihan — OkeSite CRM",

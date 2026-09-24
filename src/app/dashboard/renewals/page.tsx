@@ -1,4 +1,3 @@
-export const runtime = "edge";
 
 import { db } from "@/db";
 import { clients } from "@/db/schema";
@@ -7,6 +6,8 @@ import { RenewalListContainer } from "./RenewalListContainer";
 import { getRenewalInfo } from "@/lib/renewal";
 import { CalendarClock, AlertTriangle, Clock, CalendarCheck, History } from "lucide-react";
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Pengingat Renewal — OkeSite CRM",

@@ -1,4 +1,3 @@
-export const runtime = "edge";
 
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest } from "next/server";
