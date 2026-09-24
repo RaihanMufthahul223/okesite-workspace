@@ -5,11 +5,9 @@
  "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "pages:build": "npx @opennextjs/cloudflare build && cp .open-next/worker.js .open-next/assets/_worker.js && cp -r .open-next/cloudflare .open-next/middleware .open-next/server-functions .open-next/assets/",
-    "start": "next start",
     "lint": "eslint",
-    "preview": "npm run pages:build && wrangler pages dev .open-next/assets",
-    "deploy": "npm run pages:build && wrangler pages deploy .open-next/assets",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
