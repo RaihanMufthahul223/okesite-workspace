@@ -2,24 +2,21 @@ import { drizzle } from "drizzle-orm/libsql";
 import { createClient } from "@libsql/client/web";
 import * as schema from "./schema";
 
-function createDb() {
+let _db: ReturnType<typeof drizzle<typeof schema>> | null = null;
+
+export function getDb() {
+  if (_db) return _db;
+
   const url = process.env.TURSO_DATABASE_URL;
   const authToken = process.env.TURSO_AUTH_TOKEN;
 
-  if (!url) {
-    throw new Error("TURSO_DATABASE_URL environment variable is not set");
-  }
-  if (!authToken) {
-    throw new Error("TURSO_AUTH_TOKEN environment variable is not set");
+  if (!url || !authToken) {
+    throw new Error("TURSO_DATABASE_URL and TURSO_AUTH_TOKEN environment variables must be set");
   }
 
   const client = createClient({ url, authToken });
 
   // Fire-and-forget lightweight migrations for edge runtime.
-  // - Ensure audit_logs exists
-  // - Ensure payments.proof_url exists (added 2026-09-24, DB may be stale)
-  // We cannot await here (createDb is sync), so use promise chain with error swallow.
-  // Subsequent queries will retry after migration via safe helper if needed.
   void (async () => {
     try {
       await client.execute(
@@ -39,7 +36,6 @@ function createDb() {
     try {
       await client.execute(`ALTER TABLE payments ADD COLUMN proof_url TEXT`);
     } catch (e) {
-      // Ignore duplicate column error – Turso/libSQL throws "duplicate column name: proof_url"
       const msg = String((e as Error)?.message ?? "");
       if (!msg.toLowerCase().includes("duplicate column")) {
         console.warn("[db migration] payments proof_url add failed", msg);
@@ -47,11 +43,21 @@ function createDb() {
     }
   })();
 
-  return drizzle(client, { schema });
+  _db = drizzle(client, { schema });
+  return _db;
 }
 
-// Export a singleton db instance
-export const db = createDb();
+// Export a proxy singleton db instance (lazy evaluated at runtime)
+export const db = new Proxy({} as ReturnType<typeof drizzle<typeof schema>>, {
+  get(_target, prop) {
+    const instance = getDb();
+    const value = (instance as unknown as Record<string | symbol, unknown>)[prop];
+    if (typeof value === "function") {
+      return value.bind(instance);
+    }
+    return value;
+  },
+});
 export type DB = typeof db;
 
 // Helper for resilient payments select – falls back if proof_url missing (DB stale before migration)
