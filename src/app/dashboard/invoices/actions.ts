@@ -6,6 +6,7 @@ import { db } from "@/db";
 import { invoices, payments } from "@/db/schema";
 import { eq, sql } from "drizzle-orm";
 import { z } from "zod";
+import { logAudit } from "@/lib/audit";
 
 // ─── Validation ───────────────────────────────────────────────────────────────
 const CreateInvoiceSchema = z.object({
@@ -34,6 +35,7 @@ const AddPaymentSchema = z.object({
   paymentDate: z.string().optional().or(z.literal("")),
   paymentMethod: z.string().max(50).optional().or(z.literal("")),
   note: z.string().max(500).optional().or(z.literal("")),
+  proofUrl: z.string().max(500).optional().or(z.literal("")),
 });
 
 export type CreateInvoiceFormData = z.infer<typeof CreateInvoiceSchema>;
@@ -43,6 +45,20 @@ export type AddPaymentFormData = z.infer<typeof AddPaymentSchema>;
 export type ActionResult =
   | { success: true; message: string }
   | { success: false; error: string };
+
+// ─── Helper: retry Turso (simple) ───────────────────────────────────────────
+async function withRetry<T>(fn: () => Promise<T>, tries = 2): Promise<T> {
+  let last: unknown;
+  for (let i = 0; i < tries; i++) {
+    try {
+      return await fn();
+    } catch (e) {
+      last = e;
+      if (i < tries - 1) await new Promise((r) => setTimeout(r, 150 * (i + 1)));
+    }
+  }
+  throw last;
+}
 
 // ─── Create Invoice ─────────────────────────────────────────────────────────
 export async function createInvoice(
@@ -62,14 +78,20 @@ export async function createInvoice(
   const { clientId, serviceId, totalAmount, dueDate } = parsed.data;
 
   try {
-    await db.insert(invoices).values({
-      clientId,
-      serviceId,
-      totalAmount,
-      dueDate: dueDate || null,
-      status: "UNPAID",
-    });
+    const [row] = await withRetry(() =>
+      db
+        .insert(invoices)
+        .values({
+          clientId,
+          serviceId,
+          totalAmount,
+          dueDate: dueDate || null,
+          status: "UNPAID",
+        })
+        .returning({ id: invoices.id })
+    );
 
+    await logAudit({ userId, action: "CREATE", entity: "invoices", entityId: row?.id ?? null, detail: `Invoice ${row?.id} total ${totalAmount}` });
     revalidatePath("/dashboard/invoices");
     revalidatePath("/dashboard");
     return { success: true, message: "Tagihan berhasil dibuat." };
@@ -94,16 +116,11 @@ export async function addPayment(
     };
   }
 
-  const { invoiceId, amountPaid, paymentDate, paymentMethod, note } =
+  const { invoiceId, amountPaid, paymentDate, paymentMethod, note, proofUrl } =
     parsed.data;
 
   try {
-    // Fetch invoice to validate
-    const [invoice] = await db
-      .select()
-      .from(invoices)
-      .where(eq(invoices.id, invoiceId))
-      .limit(1);
+    const [invoice] = await withRetry(() => db.select().from(invoices).where(eq(invoices.id, invoiceId)).limit(1));
 
     if (!invoice) {
       return { success: false, error: "Tagihan tidak ditemukan." };
@@ -113,13 +130,14 @@ export async function addPayment(
       return { success: false, error: "Tagihan sudah lunas." };
     }
 
-    // Sum existing payments
-    const existing = await db
-      .select({
-        total: sql<number>`COALESCE(SUM(${payments.amountPaid}), 0)`,
-      })
-      .from(payments)
-      .where(eq(payments.invoiceId, invoiceId));
+    const existing = await withRetry(() =>
+      db
+        .select({
+          total: sql<number>`COALESCE(SUM(${payments.amountPaid}), 0)`,
+        })
+        .from(payments)
+        .where(eq(payments.invoiceId, invoiceId))
+    );
 
     const paidSoFar = Number(existing[0]?.total ?? 0);
     const remaining = invoice.totalAmount - paidSoFar;
@@ -131,25 +149,25 @@ export async function addPayment(
       };
     }
 
-    await db.insert(payments).values({
-      invoiceId,
-      amountPaid,
-      paymentDate: paymentDate || new Date().toISOString().slice(0, 10),
-      paymentMethod: paymentMethod || null,
-      note: note || null,
-    });
+    await withRetry(() =>
+      db.insert(payments).values({
+        invoiceId,
+        amountPaid,
+        paymentDate: paymentDate || new Date().toISOString().slice(0, 10),
+        paymentMethod: paymentMethod || null,
+        note: note || null,
+        proofUrl: proofUrl || null,
+      })
+    );
 
-    // Re-calc status
     const newTotal = paidSoFar + amountPaid;
     let newStatus: "UNPAID" | "PARTIAL" | "PAID" = "UNPAID";
     if (newTotal >= invoice.totalAmount) newStatus = "PAID";
     else if (newTotal > 0) newStatus = "PARTIAL";
 
-    await db
-      .update(invoices)
-      .set({ status: newStatus })
-      .where(eq(invoices.id, invoiceId));
+    await withRetry(() => db.update(invoices).set({ status: newStatus }).where(eq(invoices.id, invoiceId)));
 
+    await logAudit({ userId, action: "PAY", entity: "invoices", entityId: invoiceId, detail: `Pay ${amountPaid} -> ${newStatus}` });
     revalidatePath("/dashboard/invoices");
     revalidatePath("/dashboard");
     return {
@@ -162,6 +180,41 @@ export async function addPayment(
   } catch (err) {
     console.error("[addPayment] DB error:", err);
     return { success: false, error: "Gagal mencatat pembayaran. Coba lagi." };
+  }
+}
+
+// ─── Delete Payment (hapus cicilan) ────────────────────────────────────────
+export async function deletePayment(paymentId: number): Promise<ActionResult> {
+  const { userId } = await auth();
+  if (!userId) return { success: false, error: "Unauthorized" };
+
+  try {
+    const [pay] = await withRetry(() => db.select().from(payments).where(eq(payments.id, paymentId)).limit(1));
+    if (!pay) return { success: false, error: "Pembayaran tidak ditemukan." };
+
+    const invoiceId = pay.invoiceId;
+    await withRetry(() => db.delete(payments).where(eq(payments.id, paymentId)));
+
+    // Recalc invoice status
+    const [invoice] = await withRetry(() => db.select().from(invoices).where(eq(invoices.id, invoiceId)).limit(1));
+    if (invoice) {
+      const agg = await withRetry(() =>
+        db.select({ total: sql<number>`COALESCE(SUM(${payments.amountPaid}), 0)` }).from(payments).where(eq(payments.invoiceId, invoiceId))
+      );
+      const totalPaid = Number(agg[0]?.total ?? 0);
+      let newStatus: "UNPAID" | "PARTIAL" | "PAID" = "UNPAID";
+      if (totalPaid >= invoice.totalAmount) newStatus = "PAID";
+      else if (totalPaid > 0) newStatus = "PARTIAL";
+      await withRetry(() => db.update(invoices).set({ status: newStatus }).where(eq(invoices.id, invoiceId)));
+    }
+
+    await logAudit({ userId, action: "DELETE", entity: "payments", entityId: paymentId, detail: `Delete payment ${paymentId} of inv ${invoiceId}` });
+    revalidatePath("/dashboard/invoices");
+    revalidatePath("/dashboard");
+    return { success: true, message: "Pembayaran dihapus, status diperbarui." };
+  } catch (err) {
+    console.error("[deletePayment] DB error:", err);
+    return { success: false, error: "Gagal menghapus pembayaran." };
   }
 }
 
@@ -184,23 +237,20 @@ export async function updateInvoice(
   const { clientId, serviceId, totalAmount, dueDate } = parsed.data;
 
   try {
-    const [existing] = await db
-      .select()
-      .from(invoices)
-      .where(eq(invoices.id, id))
-      .limit(1);
+    const [existing] = await withRetry(() => db.select().from(invoices).where(eq(invoices.id, id)).limit(1));
 
     if (!existing) {
       return { success: false, error: "Tagihan tidak ditemukan." };
     }
 
-    // Hitung sudah terbayar agar total baru tidak < terbayar
-    const paidRows = await db
-      .select({
-        total: sql<number>`COALESCE(SUM(${payments.amountPaid}), 0)`,
-      })
-      .from(payments)
-      .where(eq(payments.invoiceId, id));
+    const paidRows = await withRetry(() =>
+      db
+        .select({
+          total: sql<number>`COALESCE(SUM(${payments.amountPaid}), 0)`,
+        })
+        .from(payments)
+        .where(eq(payments.invoiceId, id))
+    );
 
     const paidSoFar = Number(paidRows[0]?.total ?? 0);
     if (totalAmount < paidSoFar) {
@@ -210,22 +260,24 @@ export async function updateInvoice(
       };
     }
 
-    // Recalc status berdasarkan total baru
     let newStatus: "UNPAID" | "PARTIAL" | "PAID" = "UNPAID";
     if (paidSoFar >= totalAmount) newStatus = "PAID";
     else if (paidSoFar > 0) newStatus = "PARTIAL";
 
-    await db
-      .update(invoices)
-      .set({
-        clientId,
-        serviceId,
-        totalAmount,
-        dueDate: dueDate || null,
-        status: newStatus,
-      })
-      .where(eq(invoices.id, id));
+    await withRetry(() =>
+      db
+        .update(invoices)
+        .set({
+          clientId,
+          serviceId,
+          totalAmount,
+          dueDate: dueDate || null,
+          status: newStatus,
+        })
+        .where(eq(invoices.id, id))
+    );
 
+    await logAudit({ userId, action: "UPDATE", entity: "invoices", entityId: id, detail: `Update invoice` });
     revalidatePath("/dashboard/invoices");
     revalidatePath("/dashboard");
     return { success: true, message: "Tagihan berhasil diperbarui." };
@@ -241,20 +293,16 @@ export async function deleteInvoice(id: number): Promise<ActionResult> {
   if (!userId) return { success: false, error: "Unauthorized" };
 
   try {
-    const [existing] = await db
-      .select()
-      .from(invoices)
-      .where(eq(invoices.id, id))
-      .limit(1);
+    const [existing] = await withRetry(() => db.select().from(invoices).where(eq(invoices.id, id)).limit(1));
 
     if (!existing) {
       return { success: false, error: "Tagihan tidak ditemukan." };
     }
 
-    // Hapus payments terkait dulu (FK constraint)
-    await db.delete(payments).where(eq(payments.invoiceId, id));
-    await db.delete(invoices).where(eq(invoices.id, id));
+    await withRetry(() => db.delete(payments).where(eq(payments.invoiceId, id)));
+    await withRetry(() => db.delete(invoices).where(eq(invoices.id, id)));
 
+    await logAudit({ userId, action: "DELETE", entity: "invoices", entityId: id, detail: `Delete invoice` });
     revalidatePath("/dashboard/invoices");
     revalidatePath("/dashboard");
     return { success: true, message: "Tagihan berhasil dihapus." };

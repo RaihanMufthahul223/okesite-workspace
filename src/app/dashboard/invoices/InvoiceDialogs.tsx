@@ -280,6 +280,7 @@ const paySchema = z.object({
   paymentDate: z.string().optional().or(z.literal("")),
   paymentMethod: z.string().optional().or(z.literal("")),
   note: z.string().max(500).optional().or(z.literal("")),
+  proofUrl: z.string().max(500).optional().or(z.literal("")),
 });
 
 type PayValues = z.infer<typeof paySchema>;
@@ -308,6 +309,7 @@ export function PaymentDialog({
       paymentDate: new Date().toISOString().slice(0, 10),
       paymentMethod: "",
       note: "",
+      proofUrl: "",
     },
   });
 
@@ -319,6 +321,7 @@ export function PaymentDialog({
         paymentDate: new Date().toISOString().slice(0, 10),
         paymentMethod: "",
         note: "",
+        proofUrl: "",
       });
     }
   }, [open, invoice.remaining, form]);
@@ -445,6 +448,21 @@ export function PaymentDialog({
                   <FormControl>
                     <Textarea placeholder="No. referensi, keterangan..." rows={2} className="bg-slate-50 border-slate-200 text-slate-900 resize-none" {...field} />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="proofUrl"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-slate-700">Bukti Bayar (URL)</FormLabel>
+                  <FormControl>
+                    <Input placeholder="https://... (R2/Cloudflare Images URL)" className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400" {...field} />
+                  </FormControl>
+                  <p className="text-xs text-slate-400">Siap untuk unggah R2 — masukkan URL file jika sudah upload.</p>
                   <FormMessage />
                 </FormItem>
               )}

@@ -47,11 +47,23 @@ export const payments = sqliteTable("payments", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   invoiceId: integer("invoice_id")
     .notNull()
-    .references(() => invoices.id),
+    .references(() => invoices.id, { onDelete: "cascade" }),
   amountPaid: real("amount_paid").notNull(),
   paymentDate: text("payment_date"),
   paymentMethod: text("payment_method"),
   note: text("note"),
+  proofUrl: text("proof_url"),
+});
+
+// ─── audit_logs ─────────────────────────────────────────────────────────────
+export const auditLogs = sqliteTable("audit_logs", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  userId: text("user_id"),
+  action: text("action").notNull(),
+  entity: text("entity").notNull(),
+  entityId: text("entity_id"),
+  detail: text("detail"),
+  createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
 });
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -66,3 +78,6 @@ export type NewInvoice = typeof invoices.$inferInsert;
 
 export type Payment = typeof payments.$inferSelect;
 export type NewPayment = typeof payments.$inferInsert;
+
+export type AuditLog = typeof auditLogs.$inferSelect;
+export type NewAuditLog = typeof auditLogs.$inferInsert;

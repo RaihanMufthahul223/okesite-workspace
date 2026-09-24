@@ -5,8 +5,12 @@ import type { Client } from "@/db/schema";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetClose } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Calendar, PhoneCall, Globe, Trash2, X, Clock } from "lucide-react";
+import { ExternalLink, Calendar, PhoneCall, Globe, Trash2, X, Clock, MessageCircle, RefreshCw, CalendarClock } from "lucide-react";
 import { updateClientStatus, deleteClient } from "./actions";
+import { buildWhatsAppLink } from "@/lib/renewal";
+import { extendRenewal } from "../renewals/actions";
+import { EditClientDialog } from "./EditClientDialog";
+import { toast } from "sonner";
 
 const statusConfig = {
   FOLLOW_UP: {
@@ -79,24 +83,35 @@ export function ClientDetailSheet({ client, open, onOpenChange }: ClientDetailSh
         {/* Header */}
         <SheetHeader className="flex flex-row items-center justify-between">
           <div>
-            <SheetTitle>{client.name}</SheetTitle>
+            <SheetTitle className="flex items-center gap-2">
+              {client.name}
+              <span className="inline-flex">
+                {/* Edit trigger - rendered inline via portal */}
+              </span>
+            </SheetTitle>
             <SheetDescription>Detail Lengkap &amp; Catatan Klien</SheetDescription>
           </div>
-          <SheetClose
-            render={
-              <button
-                type="button"
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
-                aria-label="Tutup detail"
-              />
-            }
-          >
-            <X className="w-5 h-5" />
-          </SheetClose>
+          <div className="flex items-center gap-1">
+            <SheetClose
+              render={
+                <button
+                  type="button"
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+                  aria-label="Tutup detail"
+                />
+              }
+            >
+              <X className="w-5 h-5" />
+            </SheetClose>
+          </div>
         </SheetHeader>
 
         {/* Content Body */}
         <div className="flex-1 p-6 space-y-6 overflow-y-auto">
+          {/* Quick Edit */}
+          <div className="flex justify-end">
+            <EditClientDialog client={client} />
+          </div>
           {/* Quick Status Bar */}
           <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
@@ -163,7 +178,7 @@ export function ClientDetailSheet({ client, open, onOpenChange }: ClientDetailSh
 
               <div className="border-t border-slate-100 pt-3 flex items-start gap-3 text-sm">
                 <Calendar className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" />
-                <div>
+                <div className="flex-1">
                   <p className="text-xs text-slate-400">Tanggal Perpanjangan Domain/Hosting</p>
                   <p className="font-semibold text-slate-900">{formatDate(client.renewalDate)}</p>
                   {renewalDays !== null && (
@@ -175,6 +190,40 @@ export function ClientDetailSheet({ client, open, onOpenChange }: ClientDetailSh
                         : `${renewalDays} hari lagi sampai perpanjangan`}
                     </p>
                   )}
+                  {/* Quick Renewal Actions */}
+                  {(() => {
+                    const waLink = buildWhatsAppLink(client.name, client.websiteUrl, client.renewalDate, client.contactInfo);
+                    return (
+                      <div className="flex items-center gap-2 mt-3">
+                        {waLink && (
+                          <a
+                            href={waLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition"
+                          >
+                            <MessageCircle className="w-3.5 h-3.5" />
+                            Ingatkan WA
+                          </a>
+                        )}
+                        <button
+                          type="button"
+                          disabled={loading}
+                          onClick={async () => {
+                            setLoading(true);
+                            const res = await extendRenewal(client.id, 12);
+                            setLoading(false);
+                            if (res.success) toast.success(res.message);
+                            else toast.error(res.error);
+                          }}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 disabled:opacity-50 transition"
+                        >
+                          <RefreshCw className="w-3.5 h-3.5" />
+                          Perpanjang 1 th
+                        </button>
+                      </div>
+                    );
+                  })()}
                 </div>
               </div>
             </div>

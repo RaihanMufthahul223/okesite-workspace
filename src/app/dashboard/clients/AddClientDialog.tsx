@@ -33,11 +33,7 @@ import { addClient, type AddClientFormData } from "./actions";
 const formSchema = z.object({
   name: z.string().min(1, "Nama wajib diisi").max(100),
   contactInfo: z.string().max(200).optional().or(z.literal("")),
-  websiteUrl: z
-    .string()
-    .url("Harus berupa URL yang valid (termasuk https://)")
-    .or(z.literal(""))
-    .optional(),
+  websiteUrl: z.string().optional().or(z.literal("")),
   renewalDate: z.string().optional().or(z.literal("")),
   lastNote: z.string().max(500).optional().or(z.literal("")),
 });

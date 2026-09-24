@@ -4,7 +4,7 @@ import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
 import { db } from "@/db";
 import { clients, invoices, payments } from "@/db/schema";
-import { Users, TrendingUp, AlertCircle, Calendar, ArrowRight, FileText, CheckCircle2, Clock } from "lucide-react";
+import { Users, TrendingUp, AlertCircle, Calendar, ArrowRight, FileText, CheckCircle2, Clock, CalendarClock, AlertTriangle, History } from "lucide-react";
 import type { Metadata } from "next";
 import { RevenueChart, InvoiceStatusChart, ClientStatusChart } from "./DashboardCharts";
 
@@ -100,6 +100,29 @@ export default async function DashboardPage() {
     return days !== null && days >= 0 && days <= 14;
   });
 
+  // 8. Renewal reminder summary (for dedicated widget)
+  const renewalGroups = {
+    overdue: allClients.filter((c) => {
+      const d = daysUntil(c.renewalDate);
+      return d !== null && d < 0;
+    }),
+    today: allClients.filter((c) => daysUntil(c.renewalDate) === 0),
+    upcoming7: allClients.filter((c) => {
+      const d = daysUntil(c.renewalDate);
+      return d !== null && d > 0 && d <= 7;
+    }),
+    upcoming14: allClients.filter((c) => {
+      const d = daysUntil(c.renewalDate);
+      return d !== null && d > 7 && d <= 14;
+    }),
+    upcoming30: allClients.filter((c) => {
+      const d = daysUntil(c.renewalDate);
+      return d !== null && d > 14 && d <= 30;
+    }),
+  };
+  const renewalUrgentCount = renewalGroups.overdue.length + renewalGroups.today.length + renewalGroups.upcoming7.length;
+  const renewalSoonList = [...renewalGroups.overdue, ...renewalGroups.today, ...renewalGroups.upcoming7, ...renewalGroups.upcoming14].slice(0, 5);
+
   return (
     <div className="p-4 md:p-8 space-y-8">
       {/* Header */}
@@ -181,6 +204,96 @@ export default async function DashboardPage() {
           <InvoiceStatusChart data={invoiceStatusData} />
           <ClientStatusChart data={clientStatusData} />
         </div>
+      </div>
+
+      {/* ── Section: Pengingat Renewal ── */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+              <CalendarClock className="w-4 h-4 text-blue-600" />
+              Pengingat Renewal
+            </h2>
+            <p className="text-xs text-slate-500">Domain & hosting yang butuh perpanjangan — jangan sampai terlewat</p>
+          </div>
+          <Link
+            href="/dashboard/renewals"
+            className="text-xs sm:text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1 font-semibold transition-colors"
+          >
+            Lihat Semua <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        {/* Renewal summary cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className={`rounded-2xl border p-4 shadow-xs ${renewalGroups.overdue.length > 0 ? "bg-rose-50 border-rose-200" : "bg-white border-slate-200"}`}>
+            <div className="flex items-center justify-between">
+              <p className="text-xs font-semibold uppercase tracking-wider text-rose-700">Terlambat</p>
+              <AlertTriangle className="w-4 h-4 text-rose-600" />
+            </div>
+            <p className="text-2xl font-bold text-rose-700 mt-1">{renewalGroups.overdue.length}</p>
+            <p className="text-xs text-rose-600/70 mt-1">Lewat jatuh tempo</p>
+          </div>
+          <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs">
+            <div className="flex items-center justify-between">
+              <p className="text-xs font-semibold uppercase tracking-wider text-amber-700">Hari Ini</p>
+              <Clock className="w-4 h-4 text-amber-600" />
+            </div>
+            <p className="text-2xl font-bold text-slate-900 mt-1">{renewalGroups.today.length}</p>
+            <p className="text-xs text-slate-400 mt-1">Jatuh tempo hari ini</p>
+          </div>
+          <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs">
+            <div className="flex items-center justify-between">
+              <p className="text-xs font-semibold uppercase tracking-wider text-amber-700">≤ 7 Hari</p>
+              <Calendar className="w-4 h-4 text-amber-600" />
+            </div>
+            <p className="text-2xl font-bold text-slate-900 mt-1">{renewalGroups.upcoming7.length}</p>
+          </div>
+          <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs">
+            <div className="flex items-center justify-between">
+              <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">≤ 30 Hari</p>
+              <History className="w-4 h-4 text-slate-400" />
+            </div>
+            <p className="text-2xl font-bold text-slate-900 mt-1">{renewalGroups.upcoming30.length + renewalGroups.upcoming14.length}</p>
+            <p className="text-xs text-slate-400 mt-1">14–30 hari ke depan</p>
+          </div>
+        </div>
+
+        {/* Renewal urgent list */}
+        {renewalUrgentCount === 0 ? (
+          <div className="bg-white rounded-2xl border border-slate-200 p-6 text-center shadow-xs">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center mx-auto mb-2">
+              <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+            </div>
+            <p className="text-sm font-semibold text-slate-900">Tidak ada perpanjangan mendesak</p>
+            <p className="text-xs text-slate-500 mt-1">Semua domain & hosting masih aman dalam 7 hari ke depan.</p>
+          </div>
+        ) : (
+          <div className="bg-white rounded-2xl border border-slate-200 divide-y divide-slate-100 overflow-hidden shadow-xs">
+            {renewalSoonList.map((client) => {
+              const days = daysUntil(client.renewalDate);
+              const isOverdue = days !== null && days < 0;
+              const isToday = days === 0;
+              return (
+                <div key={client.id} className="flex items-center justify-between p-4 hover:bg-slate-50/80 transition-colors">
+                  <div className="min-w-0 pr-3">
+                    <p className="text-sm font-semibold text-slate-900 truncate">{client.name}</p>
+                    <p className="text-xs text-slate-500 truncate">{client.websiteUrl || "Tanpa domain"} • {client.contactInfo || "Tanpa kontak"}</p>
+                  </div>
+                  <span className={`inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full font-semibold shrink-0 ${isOverdue ? "bg-rose-100 text-rose-700" : isToday ? "bg-rose-100 text-rose-700" : "bg-amber-100 text-amber-700"}`}>
+                    <CalendarClock className="w-3 h-3" />
+                    {isOverdue ? `Terlambat ${Math.abs(days!)} hari` : isToday ? "Hari ini" : `${days} hari lagi`}
+                  </span>
+                </div>
+              );
+            })}
+            {renewalUrgentCount > 5 && (
+              <Link href="/dashboard/renewals" className="flex items-center justify-center gap-1 py-3 text-xs font-semibold text-blue-600 hover:bg-blue-50 transition">
+                Lihat {renewalUrgentCount - 5} lainnya <ArrowRight className="w-3 h-3" />
+              </Link>
+            )}
+          </div>
+        )}
       </div>
 
       {/* ── Section: Aksi Hari Ini ── */}

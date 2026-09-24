@@ -12,10 +12,13 @@ import {
   Menu,
   ChevronRight,
   Search,
+  CalendarClock,
 } from "lucide-react";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { useState } from "react";
 import { GlobalSearchPalette, openCommandPalette } from "@/components/GlobalSearch";
+import { NotificationBell } from "@/components/NotificationBell";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const navItems: Array<{ href: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }> = [
   {
@@ -39,6 +42,11 @@ const navItems: Array<{ href: string; label: string; icon: typeof LayoutDashboar
     label: "Tagihan",
     icon: FileText,
   },
+  {
+    href: "/dashboard/renewals",
+    label: "Pengingat Renewal",
+    icon: CalendarClock,
+  },
 ];
 
 function getBreadcrumb(pathname: string): { parent: string; title: string } {
@@ -46,6 +54,7 @@ function getBreadcrumb(pathname: string): { parent: string; title: string } {
   if (pathname.startsWith("/dashboard/clients")) return { parent: "CRM", title: "Daftar Klien & Prospek" };
   if (pathname.startsWith("/dashboard/services")) return { parent: "Katalog", title: "Layanan Agensi" };
   if (pathname.startsWith("/dashboard/invoices")) return { parent: "Keuangan", title: "Daftar Tagihan" };
+  if (pathname.startsWith("/dashboard/renewals")) return { parent: "CRM", title: "Pengingat Renewal" };
   return { parent: "Dashboard", title: "Ringkasan" };
 }
 
@@ -164,6 +173,8 @@ export default function DashboardLayout({
             >
               <Search className="w-5 h-5" />
             </button>
+            <ThemeToggle />
+            <NotificationBell />
             <UserButton />
           </div>
         </header>
@@ -212,6 +223,8 @@ export default function DashboardLayout({
             >
               <Search className="w-5 h-5" />
             </button>
+            <ThemeToggle />
+            <NotificationBell />
             <UserButton />
           </div>
         </header>

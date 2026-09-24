@@ -120,6 +120,7 @@ function getNavigationFiltered(qLower: string) {
     { label: "Klien & Prospek", href: "/dashboard/clients", desc: "Daftar klien & prospek" },
     { label: "Layanan Agensi", href: "/dashboard/services", desc: "Katalog paket layanan" },
     { label: "Tagihan", href: "/dashboard/invoices", desc: "Daftar tagihan & pembayaran" },
+    { label: "Pengingat Renewal", href: "/dashboard/renewals", desc: "Jadwal perpanjangan domain & hosting" },
   ];
   if (!qLower) return allNav;
   return allNav.filter(
