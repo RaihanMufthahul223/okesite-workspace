@@ -3,7 +3,7 @@
 import { useTransition } from "react";
 import { Download, FileDown, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { downloadInvoicePdf } from "@/lib/invoice-pdf";
+// jspdf hanya di-load di browser via dynamic import di handleExport — jangan static import agar SSR/Worker tidak ikut bundle 8MB jsPDF
 
 type Props = {
   invoice: {
@@ -33,13 +33,16 @@ export function ExportInvoicePdfButton({ invoice, variant = "icon" }: Props) {
         }
         const data = await res.json();
         // data shape: { invoice, client, service, payments }
-        downloadInvoicePdf(data);
+        // Dynamic import agar jsPDF tidak ter-bundle di SSR / Cloudflare Worker
+        const { downloadInvoicePdf } = await import("@/lib/invoice-pdf");
+        await downloadInvoicePdf(data);
         toast.success("PDF berhasil diunduh");
       } catch (err) {
         // Fallback: generate minimal PDF from available data only
         console.error("[ExportPdf] fetch failed, fallback to minimal pdf", err);
         try {
-          downloadInvoicePdf({
+          const { downloadInvoicePdf } = await import("@/lib/invoice-pdf");
+          await downloadInvoicePdf({
             invoice: {
               id: invoice.id,
               totalAmount: invoice.totalAmount,

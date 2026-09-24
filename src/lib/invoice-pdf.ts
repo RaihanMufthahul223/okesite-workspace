@@ -1,6 +1,18 @@
 "use client";
 
-import jsPDF from "jspdf";
+import type { jsPDF as JsPDFType } from "jspdf";
+
+// Lazy load jspdf hanya di browser — hindari bundling jsPDF di SSR / Cloudflare Worker
+// Next.js SSR sebelumnya mem-bundle 9.6MB jsPDF dan membuat workerd crash (Internal Server Error).
+let _jspdfCtor: typeof import("jspdf").default | null = null;
+async function getJsPDF(): Promise<typeof import("jspdf").default> {
+  if (_jspdfCtor) return _jspdfCtor;
+  if (typeof window === "undefined") throw new Error("jsPDF hanya tersedia di browser");
+  // webpackIgnore mencegah Turbopack mengikutsertakan jspdf di chunk server
+  const mod = await import(/* webpackIgnore: true */ "jspdf");
+  _jspdfCtor = (mod as unknown as { default: typeof import("jspdf").default }).default;
+  return _jspdfCtor;
+}
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 export interface InvoicePdfData {
@@ -60,14 +72,15 @@ function statusLabel(status: string): string {
 }
 
 function statusColor(status: string): [number, number, number] {
-  if (status === "PAID") return [16, 185, 129]; // emerald-500
-  if (status === "PARTIAL") return [245, 158, 11]; // amber-500
-  return [244, 63, 94]; // rose-500
+  if (status === "PAID") return [16, 185, 129];
+  if (status === "PARTIAL") return [245, 158, 11];
+  return [244, 63, 94];
 }
 
-// ─── Main Generator ──────────────────────────────────────────────────────────
-export function generateInvoicePdf(data: InvoicePdfData): jsPDF {
-  const doc = new jsPDF({ unit: "mm", format: "a4" });
+// ─── Main Generator (async, lazy jsPDF) ──────────────────────────────────────
+export async function generateInvoicePdf(data: InvoicePdfData): Promise<JsPDFType> {
+  const JsPDF = await getJsPDF();
+  const doc = new JsPDF({ unit: "mm", format: "a4" });
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
   const margin = 14;
@@ -77,8 +90,7 @@ export function generateInvoicePdf(data: InvoicePdfData): jsPDF {
   const remaining = Math.max(0, data.invoice.totalAmount - paidTotal);
   const invoiceNumber = `INV-${String(data.invoice.id).padStart(5, "0")}`;
 
-  // ── Header Bar (blue) ──
-  doc.setFillColor(37, 99, 235); // blue-600
+  doc.setFillColor(37, 99, 235);
   doc.rect(0, 0, pageWidth, 32, "F");
   doc.setTextColor(255, 255, 255);
   doc.setFont("helvetica", "bold");
@@ -94,7 +106,6 @@ export function generateInvoicePdf(data: InvoicePdfData): jsPDF {
   doc.setFont("helvetica", "normal");
   doc.text(invoiceNumber, pageWidth - margin, 19, { align: "right" });
 
-  // Status badge on header
   const [sr, sg, sb] = statusColor(data.invoice.status);
   doc.setFillColor(sr, sg, sb);
   const badgeText = statusLabel(data.invoice.status);
@@ -106,12 +117,10 @@ export function generateInvoicePdf(data: InvoicePdfData): jsPDF {
   doc.text(badgeText, pageWidth - margin - badgeW / 2, 26, { align: "center" });
 
   y = 40;
-  doc.setTextColor(15, 23, 42); // slate-900
-
-  // ── Meta row (Tanggal & Jatuh Tempo) ──
+  doc.setTextColor(15, 23, 42);
   doc.setFontSize(7);
   doc.setFont("helvetica", "normal");
-  doc.setTextColor(100, 116, 139); // slate-500
+  doc.setTextColor(100, 116, 139);
   doc.text("TANGGAL INVOICE", margin, y);
   doc.text("JATUH TEMPO", margin + 55, y);
   doc.text("TOTAL TAGIHAN", margin + 110, y);
@@ -128,12 +137,10 @@ export function generateInvoicePdf(data: InvoicePdfData): jsPDF {
   doc.line(margin, y, pageWidth - margin, y);
   y += 7;
 
-  // ── Bill To & Service ──
   const colW = (pageWidth - margin * 2 - 10) / 2;
   const leftX = margin;
   const rightX = margin + colW + 10;
 
-  // Bill To
   doc.setFontSize(7);
   doc.setFont("helvetica", "bold");
   doc.setTextColor(100, 116, 139);
@@ -162,7 +169,6 @@ export function generateInvoicePdf(data: InvoicePdfData): jsPDF {
     y += 4;
   }
 
-  // Service (right column) — reset y to same top
   let ry = 47;
   doc.setFontSize(7);
   doc.setFont("helvetica", "bold");
@@ -173,7 +179,6 @@ export function generateInvoicePdf(data: InvoicePdfData): jsPDF {
   doc.setFont("helvetica", "bold");
   doc.setTextColor(15, 23, 42);
   const serviceName = data.service?.name ?? `Layanan #${data.invoice.serviceId}`;
-  // wrap service name if long
   const serviceLines = doc.splitTextToSize(serviceName, colW);
   doc.text(serviceLines, rightX, ry);
   ry += serviceLines.length * 5;
@@ -195,7 +200,6 @@ export function generateInvoicePdf(data: InvoicePdfData): jsPDF {
   doc.line(margin, y, pageWidth - margin, y);
   y += 7;
 
-  // ── Ringkasan Pembayaran (3 boxes) ──
   const boxW = (pageWidth - margin * 2 - 8) / 3;
   const boxH = 18;
   const boxes: Array<{ label: string; value: string; color: [number, number, number] }> = [
@@ -203,21 +207,20 @@ export function generateInvoicePdf(data: InvoicePdfData): jsPDF {
     { label: "SUDAH DIBAYAR", value: formatCurrency(paidTotal), color: [16, 185, 129] },
     { label: "SISA TAGIHAN", value: formatCurrency(remaining), color: remaining > 0 ? [244, 63, 94] : [16, 185, 129] },
   ];
-  // Background boxes
   boxes.forEach((b, i) => {
     const bx = margin + i * (boxW + 4);
     const isLast = i === 2;
     if (isLast && remaining === 0) {
-      doc.setFillColor(236, 253, 245); // emerald-50
+      doc.setFillColor(236, 253, 245);
       doc.setDrawColor(167, 243, 208);
     } else if (isLast && remaining > 0) {
-      doc.setFillColor(255, 241, 242); // rose-50
+      doc.setFillColor(255, 241, 242);
       doc.setDrawColor(254, 205, 211);
     } else if (i === 1) {
       doc.setFillColor(236, 253, 245);
       doc.setDrawColor(167, 243, 208);
     } else {
-      doc.setFillColor(248, 250, 252); // slate-50
+      doc.setFillColor(248, 250, 252);
       doc.setDrawColor(226, 232, 240);
     }
     doc.roundedRect(bx, y, boxW, boxH, 2, 2, "FD");
@@ -232,7 +235,6 @@ export function generateInvoicePdf(data: InvoicePdfData): jsPDF {
   });
   y += boxH + 8;
 
-  // ── Progress bar ──
   const progress = data.invoice.totalAmount > 0 ? Math.round((paidTotal / data.invoice.totalAmount) * 100) : 0;
   doc.setFontSize(7);
   doc.setFont("helvetica", "normal");
@@ -248,7 +250,6 @@ export function generateInvoicePdf(data: InvoicePdfData): jsPDF {
   }
   y += 8;
 
-  // ── Tabel Pembayaran ──
   doc.setFontSize(9);
   doc.setFont("helvetica", "bold");
   doc.setTextColor(15, 23, 42);
@@ -270,7 +271,6 @@ export function generateInvoicePdf(data: InvoicePdfData): jsPDF {
     doc.text("Belum ada pembayaran tercatat untuk tagihan ini.", pageWidth / 2, y + 8, { align: "center" });
     y += 20;
   } else {
-    // Table header
     const colX = [margin, margin + 28, margin + 62, margin + 98, pageWidth - margin - 34];
     const colWidths = [28, 34, 36, 34, 34];
     doc.setFillColor(248, 250, 252);
@@ -290,7 +290,6 @@ export function generateInvoicePdf(data: InvoicePdfData): jsPDF {
     doc.setFont("helvetica", "normal");
     doc.setFontSize(7);
     data.payments.forEach((p, idx) => {
-      // Check page overflow
       if (y > pageHeight - 22) {
         doc.addPage();
         y = 14;
@@ -303,7 +302,6 @@ export function generateInvoicePdf(data: InvoicePdfData): jsPDF {
       doc.setDrawColor(241, 245, 249);
       doc.rect(margin, y, pageWidth - margin * 2, rowH, "D");
       doc.setTextColor(15, 23, 42);
-      // tanggal
       doc.text(formatDate(p.paymentDate), colX[0] + 2, y + 4.5);
       doc.text(p.paymentMethod || "—", colX[1] + 2, y + 4.5);
       doc.setFont("helvetica", "bold");
@@ -319,7 +317,6 @@ export function generateInvoicePdf(data: InvoicePdfData): jsPDF {
     y += 4;
   }
 
-  // ── Footer ──
   const footerY = pageHeight - 14;
   doc.setDrawColor(226, 232, 240);
   doc.line(margin, footerY - 6, pageWidth - margin, footerY - 6);
@@ -338,8 +335,8 @@ export function generateInvoicePdf(data: InvoicePdfData): jsPDF {
   return doc;
 }
 
-export function downloadInvoicePdf(data: InvoicePdfData, filename?: string) {
-  const doc = generateInvoicePdf(data);
+export async function downloadInvoicePdf(data: InvoicePdfData, filename?: string) {
+  const doc = await generateInvoicePdf(data);
   const invoiceNumber = `INV-${String(data.invoice.id).padStart(5, "0")}`;
   const clientSlug = (data.client?.name || "klien").replace(/\s+/g, "-").toLowerCase().slice(0, 20);
   const defaultName = `${invoiceNumber}-${clientSlug}.pdf`;
