@@ -1,0 +1,246 @@
+{
+  "node": {},
+  "edge": {
+    "00cce2a09adb4693d977d01dca8a7263f4ce01d7cd": {
+      "workers": {
+        "app/_not-found/page": {
+          "moduleId": 677193,
+          "async": false,
+          "codeHash": null
+        },
+        "app/dashboard/clients/page": {
+          "moduleId": 298131,
+          "async": false,
+          "codeHash": null
+        },
+        "app/dashboard/invoices/page": {
+          "moduleId": 81541,
+          "async": false,
+          "codeHash": null
+        },
+        "app/dashboard/page": {
+          "moduleId": 638494,
+          "async": false,
+          "codeHash": null
+        },
+        "app/dashboard/renewals/page": {
+          "moduleId": 558187,
+          "async": false,
+          "codeHash": null
+        },
+        "app/dashboard/services/page": {
+          "moduleId": 588409,
+          "async": false,
+          "codeHash": null
+        },
+        "app/page": {
+          "moduleId": 871275,
+          "async": false,
+          "codeHash": null
+        },
+        "app/sign-in/[[...sign-in]]/page": {
+          "moduleId": 13605,
+          "async": false,
+          "codeHash": null
+        }
+      },
+      "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js",
+      "exportedName": "invalidateCacheAction"
+    },
+    "006366183d78a1641684ffe7e93293d92a068d81ea": {
+      "workers": {
+        "app/_not-found/page": {
+          "moduleId": 677193,
+          "async": false,
+          "codeHash": null
+        },
+        "app/dashboard/clients/page": {
+          "moduleId": 298131,
+          "async": false,
+          "codeHash": null
+        },
+        "app/dashboard/invoices/page": {
+          "moduleId": 81541,
+          "async": false,
+          "codeHash": null
+        },
+        "app/dashboard/page": {
+          "moduleId": 638494,
+          "async": false,
+          "codeHash": null
+        },
+        "app/dashboard/renewals/page": {
+          "moduleId": 558187,
+          "async": false,
+          "codeHash": null
+        },
+        "app/dashboard/services/page": {
+          "moduleId": 588409,
+          "async": false,
+          "codeHash": null
+        },
+        "app/page": {
+          "moduleId": 871275,
+          "async": false,
+          "codeHash": null
+        },
+        "app/sign-in/[[...sign-in]]/page": {
+          "moduleId": 13605,
+          "async": false,
+          "codeHash": null
+        }
+      },
+      "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js",
+      "exportedName": "deleteKeylessAction"
+    },
+    "404056ae92b683a7f16a4479776be1c748b06e66ae": {
+      "workers": {
+        "app/dashboard/clients/page": {
+          "moduleId": 298131,
+          "async": false,
+          "codeHash": null
+        }
+      },
+      "filename": "src/app/dashboard/clients/actions.ts",
+      "exportedName": "addClient"
+    },
+    "60777c276a5e702c877463c148e3b7c71a1077f56a": {
+      "workers": {
+        "app/dashboard/clients/page": {
+          "moduleId": 298131,
+          "async": false,
+          "codeHash": null
+        }
+      },
+      "filename": "src/app/dashboard/clients/actions.ts",
+      "exportedName": "updateClientStatus"
+    },
+    "40ee21f2b8819ce22dedbe4a35efdbedaef9b05b6e": {
+      "workers": {
+        "app/dashboard/clients/page": {
+          "moduleId": 298131,
+          "async": false,
+          "codeHash": null
+        }
+      },
+      "filename": "src/app/dashboard/clients/actions.ts",
+      "exportedName": "deleteClient"
+    },
+    "60babbfed40671321e36dd8b2f87390028a54e64d7": {
+      "workers": {
+        "app/dashboard/clients/page": {
+          "moduleId": 298131,
+          "async": false,
+          "codeHash": null
+        },
+        "app/dashboard/renewals/page": {
+          "moduleId": 558187,
+          "async": false,
+          "codeHash": null
+        }
+      },
+      "filename": "src/app/dashboard/renewals/actions.ts",
+      "exportedName": "extendRenewal"
+    },
+    "6036480e494246e72923f85c452dc9121d5c53993f": {
+      "workers": {
+        "app/dashboard/clients/page": {
+          "moduleId": 298131,
+          "async": false,
+          "codeHash": null
+        }
+      },
+      "filename": "src/app/dashboard/clients/actions.ts",
+      "exportedName": "updateClient"
+    },
+    "40b416bc1ae92d4d063f5ac286378b14ded6220d14": {
+      "workers": {
+        "app/dashboard/invoices/page": {
+          "moduleId": 81541,
+          "async": false,
+          "codeHash": null
+        }
+      },
+      "filename": "src/app/dashboard/invoices/actions.ts",
+      "exportedName": "createInvoice"
+    },
+    "402bcc0bb3de37acb8dd488f87eca7f1ffb6804d91": {
+      "workers": {
+        "app/dashboard/invoices/page": {
+          "moduleId": 81541,
+          "async": false,
+          "codeHash": null
+        }
+      },
+      "filename": "src/app/dashboard/invoices/actions.ts",
+      "exportedName": "addPayment"
+    },
+    "6011dbf961d3d81ad17eb0879aad201720844b812b": {
+      "workers": {
+        "app/dashboard/invoices/page": {
+          "moduleId": 81541,
+          "async": false,
+          "codeHash": null
+        }
+      },
+      "filename": "src/app/dashboard/invoices/actions.ts",
+      "exportedName": "updateInvoice"
+    },
+    "40dae38968b4c25257a2420c634d4fd2a580186698": {
+      "workers": {
+        "app/dashboard/invoices/page": {
+          "moduleId": 81541,
+          "async": false,
+          "codeHash": null
+        }
+      },
+      "filename": "src/app/dashboard/invoices/actions.ts",
+      "exportedName": "deleteInvoice"
+    },
+    "40aa9eb1a74c21889307b556a09adc720296991289": {
+      "workers": {
+        "app/dashboard/invoices/page": {
+          "moduleId": 81541,
+          "async": false,
+          "codeHash": null
+        }
+      },
+      "filename": "src/app/dashboard/invoices/actions.ts",
+      "exportedName": "deletePayment"
+    },
+    "40a4cf90ab021b15df24d9ab3bbef06359a41dbc29": {
+      "workers": {
+        "app/dashboard/services/page": {
+          "moduleId": 588409,
+          "async": false,
+          "codeHash": null
+        }
+      },
+      "filename": "src/app/dashboard/services/actions.ts",
+      "exportedName": "addService"
+    },
+    "605066471a984366757d9304ecabefa32ebabc540f": {
+      "workers": {
+        "app/dashboard/services/page": {
+          "moduleId": 588409,
+          "async": false,
+          "codeHash": null
+        }
+      },
+      "filename": "src/app/dashboard/services/actions.ts",
+      "exportedName": "updateService"
+    },
+    "40ba6ed8b08f94eae6c57c2e122366c530d8f563f5": {
+      "workers": {
+        "app/dashboard/services/page": {
+          "moduleId": 588409,
+          "async": false,
+          "codeHash": null
+        }
+      },
+      "filename": "src/app/dashboard/services/actions.ts",
+      "exportedName": "deleteService"
+    }
+  },
+  "encryptionKey": "PLEwX5lReHiMj9ZIW4Lb5QZGgenR1iqfSTJf0lBXZ4M="
+}

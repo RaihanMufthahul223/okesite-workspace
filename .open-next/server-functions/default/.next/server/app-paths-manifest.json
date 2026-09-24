@@ -1,0 +1,18 @@
+{
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app-edge-has-no-entrypoint",
+  "/api/invoices/[id]/payments/route": "app-edge-has-no-entrypoint",
+  "/api/invoices/[id]/pdf-data/route": "app-edge-has-no-entrypoint",
+  "/api/invoices/[id]/pdf/route": "app-edge-has-no-entrypoint",
+  "/api/renewals/route": "app-edge-has-no-entrypoint",
+  "/api/search/route": "app-edge-has-no-entrypoint",
+  "/dashboard/clients/page": "app-edge-has-no-entrypoint",
+  "/dashboard/invoices/page": "app-edge-has-no-entrypoint",
+  "/dashboard/page": "app-edge-has-no-entrypoint",
+  "/dashboard/renewals/page": "app-edge-has-no-entrypoint",
+  "/dashboard/services/page": "app-edge-has-no-entrypoint",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/icon.png/route": "app/icon.png/route.js",
+  "/page": "app-edge-has-no-entrypoint",
+  "/sign-in/[[...sign-in]]/page": "app-edge-has-no-entrypoint"
+}
