@@ -3,10 +3,19 @@
   "name": "okesite-workspace",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-09-17",
-  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
-  "assets": { "binding": "ASSETS", "directory": ".open-next/assets" },
+  "compatibility_flags": [
+    "nodejs_compat",
+    "global_fetch_strictly_public"
+  ],
+  "assets": {
+    "binding": "ASSETS",
+    "directory": ".open-next/assets"
+  },
   "services": [
-    { "binding": "WORKER_SELF_REFERENCE", "service": "okesite-workspace" }
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "okesite-workspace"
+    }
   ],
   "vars": {
     "NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL": "/dashboard",
@@ -14,4 +23,8 @@
     "NEXT_PUBLIC_CLERK_SIGN_IN_URL": "/sign-in",
     "NEXT_PUBLIC_CLERK_SIGN_UP_URL": "/sign-in"
   },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  }
 }

@@ -1,0 +1,407 @@
+source.level,source.message,dataset,timestamp,$workers.truncated,$workers.event.request.cf.isEUCountry,$workers.event.request.cf.tlsClientAuth.certRFC9440TooLarge,$workers.event.request.cf.tlsClientAuth.certChainRFC9440TooLarge,$workers.event.request.cf.tlsClientAuth.certPresented,$workers.event.request.cf.tlsClientAuth.certVerified,$workers.event.request.cf.tlsClientAuth.certRevoked,$workers.event.request.cf.tlsClientAuth.certIssuerDN,$workers.event.request.cf.tlsClientAuth.certSubjectDN,$workers.event.request.cf.tlsClientAuth.certIssuerDNRFC2253,$workers.event.request.cf.tlsClientAuth.certSubjectDNRFC2253,$workers.event.request.cf.tlsClientAuth.certIssuerDNLegacy,$workers.event.request.cf.tlsClientAuth.certSubjectDNLegacy,$workers.event.request.cf.tlsClientAuth.certSerial,$workers.event.request.cf.tlsClientAuth.certIssuerSerial,$workers.event.request.cf.tlsClientAuth.certSKI,$workers.event.request.cf.tlsClientAuth.certIssuerSKI,$workers.event.request.cf.tlsClientAuth.certFingerprintSHA1,$workers.event.request.cf.tlsClientAuth.certFingerprintSHA256,$workers.event.request.cf.tlsClientAuth.certNotBefore,$workers.event.request.cf.tlsClientAuth.certNotAfter,$workers.event.request.cf.tlsClientAuth.certRFC9440,$workers.event.request.cf.tlsClientAuth.certChainRFC9440,$workers.event.request.cf.httpProtocol,$workers.event.request.cf.clientAcceptEncoding,$workers.event.request.cf.requestPriority,$workers.event.request.cf.colo,$workers.event.request.cf.asOrganization,$workers.event.request.cf.country,$workers.event.request.cf.city,$workers.event.request.cf.continent,$workers.event.request.cf.timezone,$workers.event.request.cf.longitude,$workers.event.request.cf.latitude,$workers.event.request.cf.postalCode,$workers.event.request.cf.tlsVersion,$workers.event.request.cf.tlsCipher,$workers.event.request.cf.tlsClientRandom,$workers.event.request.cf.tlsClientCiphersSha1,$workers.event.request.cf.tlsClientExtensionsSha1,$workers.event.request.cf.tlsClientExtensionsSha1Le,$workers.event.request.cf.tlsClientHelloLength,$workers.event.request.cf.verifiedBotCategory,$workers.event.request.cf.edgeRequestKeepAliveStatus,$workers.event.request.cf.clientTcpRtt,$workers.event.request.cf.clientQuicRtt,$workers.event.request.cf.asn,$workers.event.request.cf.edgeL4.deliveryRate,$workers.event.request.headers.accept,$workers.event.request.headers.accept-encoding,$workers.event.request.headers.accept-language,$workers.event.request.headers.cf-connecting-ip,$workers.event.request.headers.cf-ipcountry,$workers.event.request.headers.cf-ray,$workers.event.request.headers.cf-visitor,$workers.event.request.headers.connection,$workers.event.request.headers.host,$workers.event.request.headers.priority,$workers.event.request.headers.sec-ch-ua,$workers.event.request.headers.sec-ch-ua-mobile,$workers.event.request.headers.sec-ch-ua-platform,$workers.event.request.headers.sec-fetch-dest,$workers.event.request.headers.sec-fetch-mode,$workers.event.request.headers.sec-fetch-site,$workers.event.request.headers.sec-fetch-user,$workers.event.request.headers.upgrade-insecure-requests,$workers.event.request.headers.user-agent,$workers.event.request.headers.x-forwarded-proto,$workers.event.request.headers.x-real-ip,$workers.event.request.method,$workers.event.request.url,$workers.event.path,$workers.event.response.status,$workers.scriptName,$workers.scriptVersion.id,$workers.eventType,$workers.executionModel,$workers.outcome,$workers.wallTimeMs,$workers.cpuTimeMs,$metadata.id,$metadata.requestId,$metadata.rayId,$metadata.traceId,$metadata.trigger,$metadata.service,$metadata.level,$metadata.error,$metadata.message,$metadata.account,$metadata.type,$metadata.origin,$metadata.startTime,$metadata.endTime,$metadata.now
+error,GET https://okesite-workspace.okesitee.workers.dev/,cloudflare-workers,2026-09-24T14:18:51.751Z,false,false,false,false,0,NONE,0,,,,,,,,,,,,,,,,,HTTP/3,"gzip, deflate, br",,SIN,Yayasan Nawala Nusantara,SG,Singapore,AS,Asia/Singapore,103.85007,1.28967,018989,TLSv1.3,AEAD-AES128-GCM-SHA256,xC0T3AoCEMfg5z/ABDxNlLZlEpB+3QjqQQIQ7WxAb6I=,3HTt3+R/6BL3zeALJDSq0pR1yOQ=,4Wx+P1vZUubvjTRNrzC9GsEOuyo=,x+Imy80zIU51vO8NmMP/ThKWg9Y=,1936,,1,0,33,149877,114618,"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7","gzip, br","en-US,en;q=0.9,id;q=0.8,id-ID;q=0.7,en-ID;q=0.6",202.70.133.107,SG,a4026bb638dc9aaf,"{""scheme"":""https""}",Keep-Alive,okesite-workspace.okesitee.workers.dev,"u=0, i","""Microsoft Edge"";v=""153"", ""Not_A Brand"";v=""8"", ""Chromium"";v=""153""",?0,"""Windows""",document,navigate,none,?1,1,"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36 Edg/153.0.0.0",https,202.70.133.107,GET,https://okesite-workspace.okesitee.workers.dev/,/,500,okesite-workspace,efe65f78-9ba0-446d-bc10-01c42894d513,fetch,stateless,ok,150,140,01M39WH3Z70000000000000003,86de37089f0b079bf67e9fa18a8cdd4b,a4026bb638dc9aaf,c74ec22867463ca92ab9ee8ecf13665b,GET /,okesite-workspace,error,GET https://okesite-workspace.okesitee.workers.dev/,GET https://okesite-workspace.okesitee.workers.dev/,174e8eb00ea060cab52162beb9a59cba,cf-worker-event,fetch,undefined,undefined,undefined
+error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",cloudflare-workers,2026-09-24T14:18:51.751Z,false,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,GET,https://okesite-workspace.okesitee.workers.dev/,,,okesite-workspace,efe65f78-9ba0-446d-bc10-01c42894d513,fetch,stateless,,,,01M39WH3Z70000000000000001,86de37089f0b079bf67e9fa18a8cdd4b,a4026bb638dc9aaf,c74ec22867463ca92ab9ee8ecf13665b,GET /,okesite-workspace,error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)","Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",174e8eb00ea060cab52162beb9a59cba,cf-worker,fetch,undefined,undefined,undefined
+error,GET https://okesite-workspace.okesitee.workers.dev/,cloudflare-workers,2026-09-24T14:15:07.248Z,false,false,false,false,0,NONE,0,,,,,,,,,,,,,,,,,HTTP/3,"gzip, deflate, br",,MXP,Yayasan Nawala Nusantara,SG,Singapore,AS,Asia/Singapore,103.85007,1.28967,018989,TLSv1.3,AEAD-AES128-GCM-SHA256,l9a3xa1vaPNWumIO5aivOCcqBlcZjvFg1EjrZQaIfTY=,3HTt3+R/6BL3zeALJDSq0pR1yOQ=,419/aXJzcRIWLODSewRmJ++FZo0=,aUGZIKPhc2bk66O2F+QXbBWMzQk=,1753,,1,0,178,149877,22038,"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7","gzip, br","en-US,en;q=0.9,id;q=0.8,id-ID;q=0.7,en-ID;q=0.6",202.70.133.107,SG,a40266376a3859b9,"{""scheme"":""https""}",Keep-Alive,okesite-workspace.okesitee.workers.dev,"u=0, i","""Microsoft Edge"";v=""153"", ""Not_A Brand"";v=""8"", ""Chromium"";v=""153""",?0,"""Windows""",document,navigate,cross-site,?1,1,"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36 Edg/153.0.0.0",https,202.70.133.107,GET,https://okesite-workspace.okesitee.workers.dev/,/,500,okesite-workspace,efe65f78-9ba0-446d-bc10-01c42894d513,fetch,stateless,ok,455,426,01M39WA8QG0000000000000003,bc6b1e0c72797721f75b6c1af31e732f,a40266376a3859b9,e34f85051cc9d219a65212d2d3aa16f9,GET /,okesite-workspace,error,GET https://okesite-workspace.okesitee.workers.dev/,GET https://okesite-workspace.okesitee.workers.dev/,174e8eb00ea060cab52162beb9a59cba,cf-worker-event,fetch,undefined,undefined,undefined
+error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",cloudflare-workers,2026-09-24T14:15:07.248Z,false,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,GET,https://okesite-workspace.okesitee.workers.dev/,,,okesite-workspace,efe65f78-9ba0-446d-bc10-01c42894d513,fetch,stateless,,,,01M39WA8QG0000000000000001,bc6b1e0c72797721f75b6c1af31e732f,a40266376a3859b9,e34f85051cc9d219a65212d2d3aa16f9,GET /,okesite-workspace,error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)","Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",174e8eb00ea060cab52162beb9a59cba,cf-worker,fetch,undefined,undefined,undefined
+error,GET https://okesite-workspace.okesitee.workers.dev/,cloudflare-workers,2026-09-24T14:12:14.314Z,false,false,false,false,0,NONE,0,,,,,,,,,,,,,,,,,HTTP/3,"gzip, deflate, br",,HKG,Yayasan Nawala Nusantara,SG,Singapore,AS,Asia/Singapore,103.85007,1.28967,018989,TLSv1.3,AEAD-AES128-GCM-SHA256,HIwsLp9dOyTqTO9dw0OTf7PBrDjGl6EcW4lP4Rrp5uY=,3HTt3+R/6BL3zeALJDSq0pR1yOQ=,7Brn1sbWj3mMdzSTnZH1FsD9ISg=,hyWlhRDWQKnFvjqohdJJwCUFezM=,1759,,1,0,95,149877,37605,"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7","gzip, br","en-US,en;q=0.9,id;q=0.8,id-ID;q=0.7,en-ID;q=0.6",202.70.133.107,SG,a402620298b1a61c,"{""scheme"":""https""}",Keep-Alive,okesite-workspace.okesitee.workers.dev,"u=0, i","""Microsoft Edge"";v=""153"", ""Not_A Brand"";v=""8"", ""Chromium"";v=""153""",?0,"""Windows""",document,navigate,cross-site,?1,1,"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36 Edg/153.0.0.0",https,202.70.133.107,GET,https://okesite-workspace.okesitee.workers.dev/,/,500,okesite-workspace,efe65f78-9ba0-446d-bc10-01c42894d513,fetch,stateless,ok,157,146,01M39W4ZVA0000000000000003,fc260f38fa3223ff6975ff0af01c0d85,a402620298b1a61c,175733302bd45d25bfcc658643ee8818,GET /,okesite-workspace,error,GET https://okesite-workspace.okesitee.workers.dev/,GET https://okesite-workspace.okesitee.workers.dev/,174e8eb00ea060cab52162beb9a59cba,cf-worker-event,fetch,undefined,undefined,undefined
+error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",cloudflare-workers,2026-09-24T14:12:14.314Z,false,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,GET,https://okesite-workspace.okesitee.workers.dev/,,,okesite-workspace,efe65f78-9ba0-446d-bc10-01c42894d513,fetch,stateless,,,,01M39W4ZVA0000000000000001,fc260f38fa3223ff6975ff0af01c0d85,a402620298b1a61c,175733302bd45d25bfcc658643ee8818,GET /,okesite-workspace,error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)","Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",174e8eb00ea060cab52162beb9a59cba,cf-worker,fetch,undefined,undefined,undefined
+error,GET https://okesite-workspace.okesitee.workers.dev/,cloudflare-workers,2026-09-24T14:11:30.108Z,false,false,false,false,0,NONE,0,,,,,,,,,,,,,,,,,HTTP/3,"gzip, deflate, br",,MXP,Yayasan Nawala Nusantara,SG,Singapore,AS,Asia/Singapore,103.85007,1.28967,018989,TLSv1.3,AEAD-AES128-GCM-SHA256,czXd8fTXeyqzWZJE+qowfXr0g9xUkLGbzZA2h/W9l0U=,3HTt3+R/6BL3zeALJDSq0pR1yOQ=,rhXDI/BEmecTzmd9C9LuzyLnkuU=,AF0l+fi/kcovC6djWWUSxcwpFJQ=,1764,,1,0,174,149877,22631,"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7","gzip, br","en-US,en;q=0.9,id;q=0.8,id-ID;q=0.7,en-ID;q=0.6",202.70.133.107,SG,a40260f128034c60,"{""scheme"":""https""}",Keep-Alive,okesite-workspace.okesitee.workers.dev,"u=0, i","""Microsoft Edge"";v=""153"", ""Not_A Brand"";v=""8"", ""Chromium"";v=""153""",?0,"""Windows""",document,navigate,none,?1,1,"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36 Edg/153.0.0.0",https,202.70.133.107,GET,https://okesite-workspace.okesitee.workers.dev/,/,500,okesite-workspace,efe65f78-9ba0-446d-bc10-01c42894d513,fetch,stateless,ok,7,6,01M39W3MNW0000000000000003,37f2525552be5bb7139de1b173859231,a40260f128034c60,5e9b27ff3fa50c3943213256046b9ec5,GET /,okesite-workspace,error,GET https://okesite-workspace.okesitee.workers.dev/,GET https://okesite-workspace.okesitee.workers.dev/,174e8eb00ea060cab52162beb9a59cba,cf-worker-event,fetch,undefined,undefined,undefined
+error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",cloudflare-workers,2026-09-24T14:11:30.108Z,false,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,GET,https://okesite-workspace.okesitee.workers.dev/,,,okesite-workspace,efe65f78-9ba0-446d-bc10-01c42894d513,fetch,stateless,,,,01M39W3MNW0000000000000001,37f2525552be5bb7139de1b173859231,a40260f128034c60,5e9b27ff3fa50c3943213256046b9ec5,GET /,okesite-workspace,error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)","Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",174e8eb00ea060cab52162beb9a59cba,cf-worker,fetch,undefined,undefined,undefined
+error,GET https://okesite-workspace.okesitee.workers.dev/,cloudflare-workers,2026-09-24T14:11:28.844Z,false,false,false,false,0,NONE,0,,,,,,,,,,,,,,,,,HTTP/3,"gzip, deflate, br",,MXP,Yayasan Nawala Nusantara,SG,Singapore,AS,Asia/Singapore,103.85007,1.28967,018989,TLSv1.3,AEAD-AES128-GCM-SHA256,czXd8fTXeyqzWZJE+qowfXr0g9xUkLGbzZA2h/W9l0U=,3HTt3+R/6BL3zeALJDSq0pR1yOQ=,rhXDI/BEmecTzmd9C9LuzyLnkuU=,AF0l+fi/kcovC6djWWUSxcwpFJQ=,1764,,1,0,174,149877,22631,"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7","gzip, br","en-US,en;q=0.9,id;q=0.8,id-ID;q=0.7,en-ID;q=0.6",202.70.133.107,SG,a40260e93db94c60,"{""scheme"":""https""}",Keep-Alive,okesite-workspace.okesitee.workers.dev,"u=0, i","""Microsoft Edge"";v=""153"", ""Not_A Brand"";v=""8"", ""Chromium"";v=""153""",?0,"""Windows""",document,navigate,none,?1,1,"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36 Edg/153.0.0.0",https,202.70.133.107,GET,https://okesite-workspace.okesitee.workers.dev/,/,500,okesite-workspace,efe65f78-9ba0-446d-bc10-01c42894d513,fetch,stateless,ok,5,4,01M39W3KEC0000000000000003,6a407d49d641e843e10f724aa22585a0,a40260e93db94c60,57aaf2766323c529f4331dd91d86b9ed,GET /,okesite-workspace,error,GET https://okesite-workspace.okesitee.workers.dev/,GET https://okesite-workspace.okesitee.workers.dev/,174e8eb00ea060cab52162beb9a59cba,cf-worker-event,fetch,undefined,undefined,undefined
+error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",cloudflare-workers,2026-09-24T14:11:28.844Z,false,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,GET,https://okesite-workspace.okesitee.workers.dev/,,,okesite-workspace,efe65f78-9ba0-446d-bc10-01c42894d513,fetch,stateless,,,,01M39W3KEC0000000000000001,6a407d49d641e843e10f724aa22585a0,a40260e93db94c60,57aaf2766323c529f4331dd91d86b9ed,GET /,okesite-workspace,error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)","Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",174e8eb00ea060cab52162beb9a59cba,cf-worker,fetch,undefined,undefined,undefined
+error,GET https://okesite-workspace.okesitee.workers.dev/,cloudflare-workers,2026-09-24T14:11:25.271Z,false,false,false,false,0,NONE,0,,,,,,,,,,,,,,,,,HTTP/3,"gzip, deflate, br",,MXP,Yayasan Nawala Nusantara,SG,Singapore,AS,Asia/Singapore,103.85007,1.28967,018989,TLSv1.3,AEAD-AES128-GCM-SHA256,czXd8fTXeyqzWZJE+qowfXr0g9xUkLGbzZA2h/W9l0U=,3HTt3+R/6BL3zeALJDSq0pR1yOQ=,rhXDI/BEmecTzmd9C9LuzyLnkuU=,AF0l+fi/kcovC6djWWUSxcwpFJQ=,1764,,1,0,174,149877,22631,"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7","gzip, br","en-US,en;q=0.9,id;q=0.8,id-ID;q=0.7,en-ID;q=0.6",202.70.133.107,SG,a40260cdefa34c60,"{""scheme"":""https""}",Keep-Alive,okesite-workspace.okesitee.workers.dev,"u=0, i","""Microsoft Edge"";v=""153"", ""Not_A Brand"";v=""8"", ""Chromium"";v=""153""",?0,"""Windows""",document,navigate,cross-site,?1,1,"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36 Edg/153.0.0.0",https,202.70.133.107,GET,https://okesite-workspace.okesitee.workers.dev/,/,500,okesite-workspace,efe65f78-9ba0-446d-bc10-01c42894d513,fetch,stateless,ok,263,246,01M39W3FYQ0000000000000003,52971963222361db7a9eb0319c17967b,a40260cdefa34c60,0a93d2bc18fd371b08c1d3ef5260df10,GET /,okesite-workspace,error,GET https://okesite-workspace.okesitee.workers.dev/,GET https://okesite-workspace.okesitee.workers.dev/,174e8eb00ea060cab52162beb9a59cba,cf-worker-event,fetch,undefined,undefined,undefined
+error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",cloudflare-workers,2026-09-24T14:11:25.271Z,false,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,GET,https://okesite-workspace.okesitee.workers.dev/,,,okesite-workspace,efe65f78-9ba0-446d-bc10-01c42894d513,fetch,stateless,,,,01M39W3FYQ0000000000000001,52971963222361db7a9eb0319c17967b,a40260cdefa34c60,0a93d2bc18fd371b08c1d3ef5260df10,GET /,okesite-workspace,error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)","Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",174e8eb00ea060cab52162beb9a59cba,cf-worker,fetch,undefined,undefined,undefined
+error,GET https://okesite-workspace.okesitee.workers.dev/,cloudflare-workers,2026-09-24T14:10:58.603Z,false,false,false,false,0,NONE,0,,,,,,,,,,,,,,,,,HTTP/2,"gzip, deflate, br",weight=256;exclusive=1,CDG,Yayasan Nawala Nusantara,SG,Singapore,AS,Asia/Singapore,103.85007,1.28967,018989,TLSv1.3,AEAD-AES128-GCM-SHA256,hQ/w1FdQkk37gFMkEyI+ygPaeROOJd45oiypqJTw49Y=,2SKCJrVPJ5Gw3bPf1m2zIZskTlo=,oUT4oa3koYKVGJKVD1cY1GjjRWY=,Ls6crDJqk8bGRtjWu3Azu7DB/KU=,1707,,1,196,0,149877,22499,"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7","gzip, br","id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7,fi;q=0.6,su;q=0.5",202.70.133.107,SG,a402602c3bfad10c,"{""scheme"":""https""}",Keep-Alive,okesite-workspace.okesitee.workers.dev,"u=0, i","""Google Chrome"";v=""153"", ""Not_A Brand"";v=""8"", ""Chromium"";v=""153""",?1,"""Android""",document,navigate,none,?1,1,"Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Mobile Safari/537.36",https,202.70.133.107,GET,https://okesite-workspace.okesitee.workers.dev/,/,500,okesite-workspace,c41474cf-f2c1-4ee9-9906-3b398a03bc4a,fetch,stateless,ok,6,6,01M39W2NXB0000000000000003,ec9cba3bb3f4ecf1a2639a9a5d5dbf97,a402602c3bfad10c,b40a29c6a2caebcda59204694191e5c6,GET /,okesite-workspace,error,GET https://okesite-workspace.okesitee.workers.dev/,GET https://okesite-workspace.okesitee.workers.dev/,174e8eb00ea060cab52162beb9a59cba,cf-worker-event,fetch,undefined,undefined,undefined
+error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",cloudflare-workers,2026-09-24T14:10:58.603Z,false,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,GET,https://okesite-workspace.okesitee.workers.dev/,,,okesite-workspace,c41474cf-f2c1-4ee9-9906-3b398a03bc4a,fetch,stateless,,,,01M39W2NXB0000000000000001,ec9cba3bb3f4ecf1a2639a9a5d5dbf97,a402602c3bfad10c,b40a29c6a2caebcda59204694191e5c6,GET /,okesite-workspace,error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)","Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",174e8eb00ea060cab52162beb9a59cba,cf-worker,fetch,undefined,undefined,undefined
+error,GET https://okesite-workspace.okesitee.workers.dev/,cloudflare-workers,2026-09-24T14:10:44.187Z,false,false,false,false,0,NONE,0,,,,,,,,,,,,,,,,,HTTP/2,"gzip, deflate, br",weight=256;exclusive=1,CDG,Yayasan Nawala Nusantara,SG,Singapore,AS,Asia/Singapore,103.85007,1.28967,018989,TLSv1.3,AEAD-AES128-GCM-SHA256,hQ/w1FdQkk37gFMkEyI+ygPaeROOJd45oiypqJTw49Y=,2SKCJrVPJ5Gw3bPf1m2zIZskTlo=,oUT4oa3koYKVGJKVD1cY1GjjRWY=,Ls6crDJqk8bGRtjWu3Azu7DB/KU=,1707,,1,186,0,149877,22499,"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7","gzip, br","id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7,fi;q=0.6,su;q=0.5",202.70.133.107,SG,a4025fce3dbcd10c,"{""scheme"":""https""}",Keep-Alive,okesite-workspace.okesitee.workers.dev,"u=0, i","""Google Chrome"";v=""153"", ""Not_A Brand"";v=""8"", ""Chromium"";v=""153""",?1,"""Android""",document,navigate,none,?1,1,"Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Mobile Safari/537.36",https,202.70.133.107,GET,https://okesite-workspace.okesitee.workers.dev/,/,500,okesite-workspace,c41474cf-f2c1-4ee9-9906-3b398a03bc4a,fetch,stateless,ok,195,182,01M39W27TV0000000000000003,7839ea131df5ed38768273e180910ef3,a4025fce3dbcd10c,07353f64d5ffd2b7821ed09f32f47ed9,GET /,okesite-workspace,error,GET https://okesite-workspace.okesitee.workers.dev/,GET https://okesite-workspace.okesitee.workers.dev/,174e8eb00ea060cab52162beb9a59cba,cf-worker-event,fetch,undefined,undefined,undefined
+error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",cloudflare-workers,2026-09-24T14:10:44.187Z,false,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,GET,https://okesite-workspace.okesitee.workers.dev/,,,okesite-workspace,c41474cf-f2c1-4ee9-9906-3b398a03bc4a,fetch,stateless,,,,01M39W27TV0000000000000001,7839ea131df5ed38768273e180910ef3,a4025fce3dbcd10c,07353f64d5ffd2b7821ed09f32f47ed9,GET /,okesite-workspace,error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)","Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",174e8eb00ea060cab52162beb9a59cba,cf-worker,fetch,undefined,undefined,undefined
+error,GET https://okesite-workspace.okesitee.workers.dev/,cloudflare-workers,2026-09-24T14:08:45.839Z,false,false,false,false,0,NONE,0,,,,,,,,,,,,,,,,,HTTP/3,"gzip, deflate, br",,HKG,Yayasan Nawala Nusantara,SG,Singapore,AS,Asia/Singapore,103.85007,1.28967,018989,TLSv1.3,AEAD-AES128-GCM-SHA256,mu1aQkP2QCekPYfcCViYJWUFUstYZz+5qTbN+RyoW+s=,3HTt3+R/6BL3zeALJDSq0pR1yOQ=,N7n1YkzcqMZOFvq73dbLlQD/X/o=,iE8KiMGJogQJVL7FE+mTAzOezVs=,1751,,1,0,73,149877,289997,"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7","gzip, br","en-US,en;q=0.9,id;q=0.8,id-ID;q=0.7,en-ID;q=0.6",202.70.133.107,SG,a4025cee6bff0eb6,"{""scheme"":""https""}",Keep-Alive,okesite-workspace.okesitee.workers.dev,"u=0, i","""Microsoft Edge"";v=""153"", ""Not_A Brand"";v=""8"", ""Chromium"";v=""153""",?0,"""Windows""",document,navigate,cross-site,?1,1,"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36 Edg/153.0.0.0",https,202.70.133.107,GET,https://okesite-workspace.okesitee.workers.dev/,/,500,okesite-workspace,c41474cf-f2c1-4ee9-9906-3b398a03bc4a,fetch,stateless,ok,10,9,01M39VYM8F0000000000000003,ddb1747c63797fb27837018e0b2f0410,a4025cee6bff0eb6,de9c6f7e59effd30384b00147097f5ca,GET /,okesite-workspace,error,GET https://okesite-workspace.okesitee.workers.dev/,GET https://okesite-workspace.okesitee.workers.dev/,174e8eb00ea060cab52162beb9a59cba,cf-worker-event,fetch,undefined,undefined,undefined
+error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",cloudflare-workers,2026-09-24T14:08:45.839Z,false,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,GET,https://okesite-workspace.okesitee.workers.dev/,,,okesite-workspace,c41474cf-f2c1-4ee9-9906-3b398a03bc4a,fetch,stateless,,,,01M39VYM8F0000000000000001,ddb1747c63797fb27837018e0b2f0410,a4025cee6bff0eb6,de9c6f7e59effd30384b00147097f5ca,GET /,okesite-workspace,error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)","Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",174e8eb00ea060cab52162beb9a59cba,cf-worker,fetch,undefined,undefined,undefined
+error,GET https://okesite-workspace.okesitee.workers.dev/,cloudflare-workers,2026-09-24T14:08:31.538Z,false,false,false,false,0,NONE,0,,,,,,,,,,,,,,,,,HTTP/3,"gzip, deflate, br",,HKG,Yayasan Nawala Nusantara,SG,Singapore,AS,Asia/Singapore,103.85007,1.28967,018989,TLSv1.3,AEAD-AES128-GCM-SHA256,mu1aQkP2QCekPYfcCViYJWUFUstYZz+5qTbN+RyoW+s=,3HTt3+R/6BL3zeALJDSq0pR1yOQ=,N7n1YkzcqMZOFvq73dbLlQD/X/o=,iE8KiMGJogQJVL7FE+mTAzOezVs=,1751,,1,0,71,149877,53606,"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7","gzip, br","en-US,en;q=0.9,id;q=0.8,id-ID;q=0.7,en-ID;q=0.6",202.70.133.107,SG,a4025c94f8440eb6,"{""scheme"":""https""}",Keep-Alive,okesite-workspace.okesitee.workers.dev,"u=0, i","""Microsoft Edge"";v=""153"", ""Not_A Brand"";v=""8"", ""Chromium"";v=""153""",?0,"""Windows""",document,navigate,none,?1,1,"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36 Edg/153.0.0.0",https,202.70.133.107,GET,https://okesite-workspace.okesitee.workers.dev/,/,500,okesite-workspace,c41474cf-f2c1-4ee9-9906-3b398a03bc4a,fetch,stateless,ok,8,7,01M39VY69J0000000000000003,695dd377807e707e622df8b8e5fa588b,a4025c94f8440eb6,15f420bcadd163800662933a08bceadd,GET /,okesite-workspace,error,GET https://okesite-workspace.okesitee.workers.dev/,GET https://okesite-workspace.okesitee.workers.dev/,174e8eb00ea060cab52162beb9a59cba,cf-worker-event,fetch,undefined,undefined,undefined
+error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",cloudflare-workers,2026-09-24T14:08:31.538Z,false,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,GET,https://okesite-workspace.okesitee.workers.dev/,,,okesite-workspace,c41474cf-f2c1-4ee9-9906-3b398a03bc4a,fetch,stateless,,,,01M39VY69J0000000000000001,695dd377807e707e622df8b8e5fa588b,a4025c94f8440eb6,15f420bcadd163800662933a08bceadd,GET /,okesite-workspace,error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)","Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",174e8eb00ea060cab52162beb9a59cba,cf-worker,fetch,undefined,undefined,undefined
+error,GET https://okesite-workspace.okesitee.workers.dev/,cloudflare-workers,2026-09-24T14:07:34.005Z,false,false,false,false,0,NONE,0,,,,,,,,,,,,,,,,,HTTP/3,"gzip, deflate, br",,SIN,Yayasan Nawala Nusantara,SG,Singapore,AS,Asia/Singapore,103.85007,1.28967,018989,TLSv1.3,AEAD-AES128-GCM-SHA256,CiYXldODKDfvjhomTFHgc/5/RD0F7lg94TqvrrPWTEk=,3HTt3+R/6BL3zeALJDSq0pR1yOQ=,Sb8JNx8QJy4i6vg9FOSueMY1hG0=,21f3Cb+tQgqokAjRrywmWLYCNHM=,1762,,1,0,36,149877,104085,"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7","gzip, br","en-US,en;q=0.9,id;q=0.8,id-ID;q=0.7,en-ID;q=0.6",202.70.133.107,SG,a4025b271b8ba054,"{""scheme"":""https""}",Keep-Alive,okesite-workspace.okesitee.workers.dev,"u=0, i","""Microsoft Edge"";v=""153"", ""Not_A Brand"";v=""8"", ""Chromium"";v=""153""",?0,"""Windows""",document,navigate,none,?1,1,"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36 Edg/153.0.0.0",https,202.70.133.107,GET,https://okesite-workspace.okesitee.workers.dev/,/,500,okesite-workspace,c41474cf-f2c1-4ee9-9906-3b398a03bc4a,fetch,stateless,ok,399,370,01M39VWE3N0000000000000003,8460f37ca5421f3163726f1b48c1bb8e,a4025b271b8ba054,32c0c641efb9e084b39129d9c40451a4,GET /,okesite-workspace,error,GET https://okesite-workspace.okesitee.workers.dev/,GET https://okesite-workspace.okesitee.workers.dev/,174e8eb00ea060cab52162beb9a59cba,cf-worker-event,fetch,undefined,undefined,undefined
+error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",cloudflare-workers,2026-09-24T14:07:34.005Z,false,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,GET,https://okesite-workspace.okesitee.workers.dev/,,,okesite-workspace,c41474cf-f2c1-4ee9-9906-3b398a03bc4a,fetch,stateless,,,,01M39VWE3N0000000000000001,8460f37ca5421f3163726f1b48c1bb8e,a4025b271b8ba054,32c0c641efb9e084b39129d9c40451a4,GET /,okesite-workspace,error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)","Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",174e8eb00ea060cab52162beb9a59cba,cf-worker,fetch,undefined,undefined,undefined
+error,GET https://okesite-workspace.okesitee.workers.dev/,cloudflare-workers,2026-09-24T14:00:35.714Z,false,false,false,false,0,NONE,0,,,,,,,,,,,,,,,,,HTTP/3,"gzip, deflate, br",,MRS,Yayasan Nawala Nusantara,SG,Singapore,AS,Asia/Singapore,103.85007,1.28967,018989,TLSv1.3,AEAD-AES128-GCM-SHA256,R/iQ5h8VJmCKEsRVpW/zRb/aC+4SskF2q1YM12Rgyww=,3HTt3+R/6BL3zeALJDSq0pR1yOQ=,4YM7hnbcR1LeeAcLmsjSShk+xpM=,taD768lPwT8ZrLTywxtylnjQiTk=,1766,,1,0,173,149877,22781,"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7","gzip, br","en-US,en;q=0.9,id;q=0.8,id-ID;q=0.7,en-ID;q=0.6",202.70.133.107,SG,a40250f7188432f7,"{""scheme"":""https""}",Keep-Alive,okesite-workspace.okesitee.workers.dev,"u=0, i","""Microsoft Edge"";v=""153"", ""Not_A Brand"";v=""8"", ""Chromium"";v=""153""",?0,"""Windows""",document,navigate,none,?1,1,"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36 Edg/153.0.0.0",https,202.70.133.107,GET,https://okesite-workspace.okesitee.workers.dev/,/,500,okesite-workspace,c41474cf-f2c1-4ee9-9906-3b398a03bc4a,fetch,stateless,ok,8,7,01M39VFNM20000000000000003,9fb8956f57abc707718c92eaf3f62e1c,a40250f7188432f7,d92bc550ec77c37b44afea9aa340b097,GET /,okesite-workspace,error,GET https://okesite-workspace.okesitee.workers.dev/,GET https://okesite-workspace.okesitee.workers.dev/,174e8eb00ea060cab52162beb9a59cba,cf-worker-event,fetch,undefined,undefined,undefined
+error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",cloudflare-workers,2026-09-24T14:00:35.714Z,false,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,GET,https://okesite-workspace.okesitee.workers.dev/,,,okesite-workspace,c41474cf-f2c1-4ee9-9906-3b398a03bc4a,fetch,stateless,,,,01M39VFNM20000000000000001,9fb8956f57abc707718c92eaf3f62e1c,a40250f7188432f7,d92bc550ec77c37b44afea9aa340b097,GET /,okesite-workspace,error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)","Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",174e8eb00ea060cab52162beb9a59cba,cf-worker,fetch,undefined,undefined,undefined
+error,GET https://okesite-workspace.okesitee.workers.dev/,cloudflare-workers,2026-09-24T14:00:34.187Z,false,false,false,false,0,NONE,0,,,,,,,,,,,,,,,,,HTTP/3,"gzip, deflate, br",,MRS,Yayasan Nawala Nusantara,SG,Singapore,AS,Asia/Singapore,103.85007,1.28967,018989,TLSv1.3,AEAD-AES128-GCM-SHA256,R/iQ5h8VJmCKEsRVpW/zRb/aC+4SskF2q1YM12Rgyww=,3HTt3+R/6BL3zeALJDSq0pR1yOQ=,4YM7hnbcR1LeeAcLmsjSShk+xpM=,taD768lPwT8ZrLTywxtylnjQiTk=,1766,,1,0,172,149877,22781,"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7","gzip, br","en-US,en;q=0.9,id;q=0.8,id-ID;q=0.7,en-ID;q=0.6",202.70.133.107,SG,a40250e90e2a32f7,"{""scheme"":""https""}",Keep-Alive,okesite-workspace.okesitee.workers.dev,"u=0, i","""Microsoft Edge"";v=""153"", ""Not_A Brand"";v=""8"", ""Chromium"";v=""153""",?0,"""Windows""",document,navigate,none,?1,1,"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36 Edg/153.0.0.0",https,202.70.133.107,GET,https://okesite-workspace.okesitee.workers.dev/,/,500,okesite-workspace,c41474cf-f2c1-4ee9-9906-3b398a03bc4a,fetch,stateless,ok,272,255,01M39VFM4B0000000000000003,4372e0981faaa589c9ecb8f5b6c1049a,a40250e90e2a32f7,ddf2fa7ae3dfb72d06b01cd85007f674,GET /,okesite-workspace,error,GET https://okesite-workspace.okesitee.workers.dev/,GET https://okesite-workspace.okesitee.workers.dev/,174e8eb00ea060cab52162beb9a59cba,cf-worker-event,fetch,undefined,undefined,undefined
+error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",cloudflare-workers,2026-09-24T14:00:34.187Z,false,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,GET,https://okesite-workspace.okesitee.workers.dev/,,,okesite-workspace,c41474cf-f2c1-4ee9-9906-3b398a03bc4a,fetch,stateless,,,,01M39VFM4B0000000000000001,4372e0981faaa589c9ecb8f5b6c1049a,a40250e90e2a32f7,ddf2fa7ae3dfb72d06b01cd85007f674,GET /,okesite-workspace,error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)","Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",174e8eb00ea060cab52162beb9a59cba,cf-worker,fetch,undefined,undefined,undefined
+error,GET https://okesite-workspace.okesitee.workers.dev/,cloudflare-workers,2026-09-24T13:58:44.576Z,false,false,false,false,0,NONE,0,,,,,,,,,,,,,,,,,HTTP/3,"gzip, deflate, br",,HKG,Yayasan Nawala Nusantara,SG,Singapore,AS,Asia/Singapore,103.85007,1.28967,018989,TLSv1.3,AEAD-AES128-GCM-SHA256,y+ZEZ2V1PT7UN+zbh6XdTEyjw6CWvVFkx2lfEomY2BE=,3HTt3+R/6BL3zeALJDSq0pR1yOQ=,8FB+sGsjf4Jh4YdaWnEcKHMZiNA=,YylJPlACJHJYfxdItyuKHUjQdlg=,1942,,1,0,77,149877,6917,"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7","gzip, br","en-US,en;q=0.9,id;q=0.8,id-ID;q=0.7,en-ID;q=0.6",202.70.133.107,SG,a4024e3b48dc84d5,"{""scheme"":""https""}",Keep-Alive,okesite-workspace.okesitee.workers.dev,"u=0, i","""Microsoft Edge"";v=""153"", ""Not_A Brand"";v=""8"", ""Chromium"";v=""153""",?0,"""Windows""",document,navigate,none,?1,1,"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36 Edg/153.0.0.0",https,202.70.133.107,GET,https://okesite-workspace.okesitee.workers.dev/,/,500,okesite-workspace,c41474cf-f2c1-4ee9-9906-3b398a03bc4a,fetch,stateless,ok,331,315,01M39VC9300000000000000003,5c63c96e0f6a226a0910d410df4b9511,a4024e3b48dc84d5,ed7d2853f88f247329c72f7c96152043,GET /,okesite-workspace,error,GET https://okesite-workspace.okesitee.workers.dev/,GET https://okesite-workspace.okesitee.workers.dev/,174e8eb00ea060cab52162beb9a59cba,cf-worker-event,fetch,undefined,undefined,undefined
+error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",cloudflare-workers,2026-09-24T13:58:44.576Z,false,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,GET,https://okesite-workspace.okesitee.workers.dev/,,,okesite-workspace,c41474cf-f2c1-4ee9-9906-3b398a03bc4a,fetch,stateless,,,,01M39VC9300000000000000001,5c63c96e0f6a226a0910d410df4b9511,a4024e3b48dc84d5,ed7d2853f88f247329c72f7c96152043,GET /,okesite-workspace,error,"Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)","Error in routingHandler     at Object.throwMissingSecretKeyError (worker.js:238643:17)
+    at l10 (worker.js:243017:279)
+    at worker.js:243017:324
+    at r11 (worker.js:243072:25)
+    at handler (worker.js:243099:26)
+    at worker.js:237733:88
+    at worker.js:237733:50
+    at async tb (worker.js:237671:20)
+    at async Object.middlewareHandler (worker.js:246520:18)
+    at async handleMiddleware (worker.js:248251:18)",174e8eb00ea060cab52162beb9a59cba,cf-worker,fetch,undefined,undefined,undefined
